@@ -37,7 +37,7 @@ export function validatePrompt(prompt: string): { valid: boolean; error?: string
   return { valid: true };
 }
 
-const contentGuidelines = "no offensive or inappropriate material";
+const contentGuidelines = "appropriate content only";
 
 const STYLE_PROMPTS: Record<string, string> = {
   cartoonblocks: "3D cartoon illustration of a blocky game character. Simplified low-poly character design with cube-shaped head, cylindrical limbs, flat textures, and bright vibrant colors. Minimal facial features with expressive face. Stylized low-poly look with clean outlines and no complex shading. Simple background or flat white background. Designed in a generic blocky game art style. No photorealism, no realistic materials, no complex environments, no brand references.",
@@ -53,11 +53,18 @@ const STYLE_PROMPTS: Record<string, string> = {
   "vintage-comic": "Black and white vintage comic panel illustration, highly detailed, realistic rendering, heavy ink shading, bold lines, high contrast, comic speech bubbles in cartoon style where needed, square format, no color, no background noise, clean composition"
 };
 
-const technicalSpecs = "Professional quality, high resolution, centered composition, clear details, as a stand-alone printable graphic (screen-print friendly, high-contrast, 300 dpi look). Isolated on plain background, no fabric, no mock-up, no product photo";
+const technicalSpecs = "High resolution, centered, clear details, printable quality";
 
 function getBackgroundInstruction(productColor: string): string {
   const colorLower = productColor.toLowerCase();
-  return "Subject centered in frame, large and dominant, taking up most of the frame";
+  
+  if (colorLower.includes('black') || colorLower.includes('dark')) {
+    return "Light or white background for contrast";
+  } else if (colorLower.includes('white') || colorLower.includes('light')) {
+    return "Dark or colored background for contrast";
+  } else {
+    return "Neutral background that complements the design";
+  }
 }
 
 function enhancePrompt(userPrompt: string, style: string, productColor: string): string {
@@ -68,7 +75,7 @@ function enhancePrompt(userPrompt: string, style: string, productColor: string):
   const stylePrompt = STYLE_PROMPTS[style] || STYLE_PROMPTS.realistic;
   const backgroundInstruction = getBackgroundInstruction(productColor);
 
-  return `${cleanPrompt}. Style: ${stylePrompt}. Background: ${backgroundInstruction}. Technical: ${technicalSpecs}. Content: ${contentGuidelines}`;
+  return `${cleanPrompt}. ${stylePrompt}. ${backgroundInstruction}. ${technicalSpecs}. ${contentGuidelines}`;
 }
 
 interface GenerationResult {
