@@ -57,7 +57,14 @@ const technicalSpecs = "Professional quality, high resolution, centered composit
 
 function getBackgroundInstruction(productColor: string): string {
   const colorLower = productColor.toLowerCase();
-  return "Subject centered in frame, large and dominant, taking up most of the frame";
+  
+  if (colorLower.includes('black')) {
+    return "Subject centered in frame, large and dominant, taking up most of the frame. Use bright, light colors and white elements that will stand out against a black background. Avoid dark colors, black elements, or low contrast designs. Ensure high contrast with light, vibrant colors.";
+  } else if (colorLower.includes('white')) {
+    return "Subject centered in frame, large and dominant, taking up most of the frame. Use dark, bold colors and black elements that will stand out against a white background. Avoid light colors, white elements, or low contrast designs. Ensure high contrast with dark, vibrant colors.";
+  } else {
+    return "Subject centered in frame, large and dominant, taking up most of the frame. Use contrasting colors that will stand out against the product background. Ensure good visibility and contrast.";
+  }
 }
 
 function enhancePrompt(userPrompt: string, style: string, productColor: string): string {
