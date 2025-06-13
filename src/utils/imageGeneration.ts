@@ -37,7 +37,7 @@ export function validatePrompt(prompt: string): { valid: boolean; error?: string
   return { valid: true };
 }
 
-const contentGuidelines = "no offensive or inappropriate material";
+const contentGuidelines = "no offensive content, no copyrighted images";
 
 const STYLE_PROMPTS: Record<string, string> = {
   cartoonblocks: "3D cartoon illustration of a blocky game character. Simplified low-poly character design with cube-shaped head, cylindrical limbs, flat textures, and bright vibrant colors. Minimal facial features with expressive face. Stylized low-poly look with clean outlines and no complex shading. Simple background or flat white background. Designed in a generic blocky game art style. No photorealism, no realistic materials, no complex environments, no brand references.",
@@ -53,7 +53,7 @@ const STYLE_PROMPTS: Record<string, string> = {
   "vintage-comic": "Black and white vintage comic panel illustration, highly detailed, realistic rendering, heavy ink shading, bold lines, high contrast, comic speech bubbles in cartoon style where needed, square format, no color, no background noise, clean composition"
 };
 
-const technicalSpecs = "Professional quality, high resolution, centered composition, clear details, as a stand-alone printable graphic (screen-print friendly, high-contrast, 300 dpi look). Isolated on plain background, no fabric, no mock-up, no product photo";
+const technicalSpecs = "High resolution, professional quality, optimized for printing, centered composition, clean edges, no background noise or artifacts.";
 
 function getBackgroundInstruction(productColor: string): string {
   const colorLower = productColor.toLowerCase();
