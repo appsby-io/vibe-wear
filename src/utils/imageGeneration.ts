@@ -1,10 +1,18 @@
 // src/utils/imageGeneration.ts
 import OpenAI from 'openai';
 
-const openai = new OpenAI({
-  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
-  dangerouslyAllowBrowser: true // Only for client-side demos
-});
+// Check if API key is available
+const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
+
+let openai: OpenAI | null = null;
+
+// Only initialize OpenAI if API key is available
+if (apiKey) {
+  openai = new OpenAI({
+    apiKey: apiKey,
+    dangerouslyAllowBrowser: true // Only for client-side demos
+  });
+}
 
 // Validation function for prompts
 export function validatePrompt(prompt: string): { valid: boolean; error?: string } {
@@ -94,6 +102,14 @@ export async function generateDesign(
   quality: 'low' | 'hd' = 'low'
 ): Promise<GenerationResult> {
   try {
+    // Check if OpenAI is available
+    if (!openai) {
+      return {
+        success: false,
+        error: 'AI image generation is currently unavailable. Please join our waitlist to be notified when this feature is ready!'
+      };
+    }
+
     if (!prompt?.trim()) {
       return {
         success: false,
@@ -157,7 +173,7 @@ export async function generateDesign(
 
     return {
       success: false,
-      error: error?.message || 'Failed to generate image. Please try again.'
+      error: error?.message || 'AI image generation is currently unavailable. Please join our waitlist to be notified when this feature is ready!'
     };
   }
 }

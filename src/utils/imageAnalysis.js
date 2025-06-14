@@ -1,14 +1,30 @@
 // src/utils/imageAnalysis.js
 import OpenAI from 'openai';
 
-const openai = new OpenAI({
-  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
-  dangerouslyAllowBrowser: true
-});
+// Check if API key is available
+const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
+
+let openai = null;
+
+// Only initialize OpenAI if API key is available
+if (apiKey) {
+  openai = new OpenAI({
+    apiKey: apiKey,
+    dangerouslyAllowBrowser: true
+  });
+}
 
 // GPT-4o Image Analysis for Product Design Quality Assessment
 export async function analyzeDesignWithGPT4o(imageUrl, originalPrompt, selectedStyle, productColor) {
   try {
+    // Check if OpenAI is available
+    if (!openai) {
+      return {
+        success: false,
+        error: 'AI analysis is currently unavailable. Please join our waitlist to be notified when this feature is ready!'
+      };
+    }
+
     const systemMessage = `You are an expert product design analyst and art director. Analyze the provided image and give constructive feedback on:
 
 1. **Style Consistency**: How well does it match the requested style?
@@ -59,7 +75,7 @@ Provide detailed feedback on the design quality and specific suggestions for imp
   } catch (error) {
     console.error('Error analyzing image with GPT-4o:', error);
     
-    let errorMessage = 'Failed to analyze image. Please try again.';
+    let errorMessage = 'AI analysis is currently unavailable. Please join our waitlist to be notified when this feature is ready!';
     
     if (error.code === 'rate_limit_exceeded') {
       errorMessage = 'Too many analysis requests. Please wait a moment and try again.';
@@ -78,6 +94,14 @@ Provide detailed feedback on the design quality and specific suggestions for imp
 // Analyze multiple designs and compare them
 export async function compareDesigns(designs, originalPrompt, selectedStyle, productColor) {
   try {
+    // Check if OpenAI is available
+    if (!openai) {
+      return {
+        success: false,
+        error: 'AI analysis is currently unavailable. Please join our waitlist to be notified when this feature is ready!'
+      };
+    }
+
     const systemMessage = `You are an expert product design analyst. Compare multiple design variations and provide:
 
 1. **Best Design**: Which design works best and why?
@@ -130,7 +154,7 @@ Please analyze and compare all designs, providing specific feedback on which wor
     console.error('Error comparing designs with GPT-4o:', error);
     return {
       success: false,
-      error: 'Failed to compare designs. Please try again.',
+      error: 'AI analysis is currently unavailable. Please join our waitlist to be notified when this feature is ready!',
       originalError: error.message
     };
   }
@@ -139,6 +163,14 @@ Please analyze and compare all designs, providing specific feedback on which wor
 // Generate improved prompt suggestions based on analysis
 export async function generatePromptSuggestions(imageUrl, originalPrompt, selectedStyle, analysis) {
   try {
+    // Check if OpenAI is available
+    if (!openai) {
+      return {
+        success: false,
+        error: 'AI analysis is currently unavailable. Please join our waitlist to be notified when this feature is ready!'
+      };
+    }
+
     const systemMessage = `You are an expert prompt engineer for AI image generation. Based on the image analysis, create 3 improved prompt variations that would generate better, more consistent results.
 
 Focus on:
@@ -177,7 +209,7 @@ Please provide 3 improved prompt variations that would generate better, more con
     console.error('Error generating prompt suggestions:', error);
     return {
       success: false,
-      error: 'Failed to generate suggestions. Please try again.',
+      error: 'AI analysis is currently unavailable. Please join our waitlist to be notified when this feature is ready!',
       originalError: error.message
     };
   }

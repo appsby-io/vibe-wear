@@ -80,6 +80,9 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({ onGenerate, isGenerati
 
   const currentError = validationError || error;
 
+  // Check if OpenAI API key is available
+  const isApiKeyAvailable = !!import.meta.env.VITE_OPENAI_API_KEY;
+
   return (
     <div className="bg-white border-b border-gray-100 lg:pt-8 pt-2 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -306,8 +309,21 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({ onGenerate, isGenerati
             </div>
           )}
 
+          {/* API Key Status Notice */}
+          {!isApiKeyAvailable && (
+            <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-xl flex items-start space-x-3">
+              <AlertCircle className="h-5 w-5 text-yellow-500 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="text-yellow-700 text-sm font-medium font-source-sans">Demo Mode</p>
+                <p className="text-yellow-600 text-sm font-source-sans mt-1">
+                  AI image generation is currently unavailable. Join our waitlist below to be notified when this feature is ready!
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* Quality indicator with testing mode notice */}
-          {selectedStyle && (
+          {selectedStyle && isApiKeyAvailable && (
             <div className="mt-4 flex items-center justify-center">
               <div className="inline-flex items-center px-4 py-2 bg-vibrant-pink/10 rounded-full">
                 <span className="text-vibrant-pink text-sm font-medium font-source-sans">
@@ -318,11 +334,13 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({ onGenerate, isGenerati
           )}
 
           {/* Quality explanation for testing */}
-          <div className="mt-4 text-center">
-            <p className="text-gray-500 text-sm font-source-sans">
-              <span className="font-semibold text-orange-600">Testing Mode:</span> Using standard quality for faster generation and lower costs.
-            </p>
-          </div>
+          {isApiKeyAvailable && (
+            <div className="mt-4 text-center">
+              <p className="text-gray-500 text-sm font-source-sans">
+                <span className="font-semibold text-orange-600">Testing Mode:</span> Using standard quality for faster generation and lower costs.
+              </p>
+            </div>
+          )}
         </form>
       </div>
     </div>
