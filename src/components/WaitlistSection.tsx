@@ -110,7 +110,7 @@ export const WaitlistSection: React.FC = () => {
             />
           </div>
           
-          <h2 className="text-xl font-bold text-gray-900 mb-4 font-source-sans">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4 font-source-sans">
             Join Our Waiting List
           </h2>
           
