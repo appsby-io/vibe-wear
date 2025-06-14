@@ -120,7 +120,7 @@ export const WaitlistSection: React.FC = () => {
           </p>
 
           <div className="bg-gray-50 rounded-xl p-6 mb-8">
-            <h3 className="text-xl font-semibold text-gray-900 mb-4 font-source-sans">
+            <h3 className="text-l font-semibold text-gray-900 mb-4 font-source-sans">
               What you'll get as an early member:
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
