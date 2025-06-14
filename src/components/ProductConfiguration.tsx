@@ -267,9 +267,6 @@ export const ProductConfiguration: React.FC<ProductConfigurationProps> = ({
           </div>
         </div>
       </div>
-
-      {/* Mobile bottom padding to account for sticky controls */}
-      <div className="lg:hidden h-24"></div>
     </>
   );
 };
