@@ -153,7 +153,10 @@ export const ProductDisplay: React.FC<ProductDisplayProps> = ({
           <div className="relative">
             <div 
               className="relative bg-white rounded-2xl overflow-hidden"
-              style={{ width: '480px', height: '576px' }}
+              style={{ 
+                width: window.innerWidth < 1024 ? '360px' : '480px', 
+                height: window.innerWidth < 1024 ? '432px' : '576px' 
+              }}
             >
               {/* Product Base */}
               <div className="w-full h-full bg-white flex items-center justify-center">
@@ -179,8 +182,11 @@ export const ProductDisplay: React.FC<ProductDisplayProps> = ({
                   <img
                     src={currentDesign.imageUrl}
                     alt={currentDesign.name}
-                    className="w-40 h-40 object-contain hover:scale-105 transition-transform"
-                    style={{ width: '160px', height: '160px' }}
+                    className="object-contain hover:scale-105 transition-transform"
+                    style={{ 
+                      width: window.innerWidth < 1024 ? '120px' : '160px', 
+                      height: window.innerWidth < 1024 ? '120px' : '160px' 
+                    }}
                     draggable={false}
                   />
                 </div>

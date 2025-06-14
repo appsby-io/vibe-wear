@@ -85,9 +85,10 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({ onGenerate, isGenerati
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <form onSubmit={handleSubmit} className="max-w-4xl mx-auto">
           <div className="relative">
-            <div className={`relative flex items-center bg-white rounded-2xl border-2 transition-all ${
+            {/* Desktop Layout */}
+            <div className={`hidden lg:flex relative items-center bg-white rounded-2xl border-2 transition-all ${
               currentError ? 'border-red-300' : 'border-black'
-            }`} style={{ minHeight: '100px' }}>
+            }`} style={{ height: '124px' }}>
               {/* Enhanced watermark text */}
               {!prompt && (
                 <div className="absolute top-4 left-4 text-gray-400 text-sm font-source-sans pointer-events-none">
@@ -145,20 +146,20 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({ onGenerate, isGenerati
                 placeholder=""
                 className="flex-1 px-4 pt-12 pb-16 bg-transparent text-lg placeholder-gray-500 focus:outline-none resize-none font-source-sans"
                 disabled={isGenerating}
-                rows={2}
+                rows={3}
                 maxLength={1000}
               />
 
-              {/* Character counter - hidden on mobile */}
-              <div className="absolute bottom-4 right-20 text-xs text-gray-400 font-source-sans hidden sm:block">
+              {/* Character counter - moved to bottom right corner */}
+              <div className="absolute bottom-4 right-20 text-xs text-gray-400 font-source-sans">
                 {prompt.length}/1000
               </div>
 
-              {/* Enhanced generate button - smaller height on mobile */}
+              {/* Enhanced generate button - always enabled */}
               <button
                 type="submit"
                 disabled={isGenerating}
-                className={`absolute right-4 bottom-4 px-6 py-2 sm:py-3 rounded-full font-semibold transition-all flex items-center space-x-2 relative overflow-hidden ${
+                className={`absolute right-4 bottom-4 px-6 py-3 rounded-full font-semibold transition-all flex items-center space-x-2 relative overflow-hidden ${
                   !isGenerating
                     ? 'bg-vibrant-pink text-white hover:bg-pink-600 shadow-lg hover:shadow-xl transform hover:scale-105'
                     : 'bg-gray-200 text-gray-400 cursor-not-allowed'
@@ -176,6 +177,101 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({ onGenerate, isGenerati
                   </>
                 )}
               </button>
+            </div>
+
+            {/* Mobile Layout */}
+            <div className="lg:hidden">
+              {/* Text input area */}
+              <div className={`relative bg-white rounded-2xl border-2 transition-all ${
+                currentError ? 'border-red-300' : 'border-black'
+              }`} style={{ minHeight: '80px' }}>
+                {/* Enhanced watermark text */}
+                {!prompt && (
+                  <div className="absolute top-3 left-4 text-gray-400 text-sm font-source-sans pointer-events-none">
+                    Try: "Majestic lion wearing a crown with golden mane"
+                  </div>
+                )}
+                
+                {/* Enhanced text input */}
+                <textarea
+                  value={prompt}
+                  onChange={handlePromptChange}
+                  placeholder=""
+                  className="w-full px-4 pt-8 pb-4 bg-transparent text-base placeholder-gray-500 focus:outline-none resize-none font-source-sans"
+                  disabled={isGenerating}
+                  rows={2}
+                  maxLength={1000}
+                />
+              </div>
+
+              {/* Bottom row with icons and generate button */}
+              <div className="flex items-center justify-between mt-3">
+                {/* Left side icons */}
+                <div className="flex space-x-2">
+                  <div className="relative">
+                    <button
+                      type="button"
+                      onClick={handleMicClick}
+                      className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-all relative overflow-hidden group"
+                      title="Voice input"
+                    >
+                      <Mic className="h-5 w-5 text-gray-600 group-hover:text-vibrant-pink transition-colors" />
+                      <div className="absolute inset-0 bg-vibrant-pink opacity-0 group-hover:opacity-10 rounded-full transition-opacity"></div>
+                    </button>
+                    {showTooltip === 'mic' && (
+                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-black text-white text-sm rounded-lg whitespace-nowrap z-50">
+                        Coming soon 🦘
+                        <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-2 h-2 bg-black rotate-45"></div>
+                      </div>
+                    )}
+                  </div>
+                  
+                  <div className="relative">
+                    <button
+                      type="button"
+                      onClick={handleImageClick}
+                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all relative overflow-hidden group ${
+                        showImageUpload || selectedImage
+                          ? 'bg-vibrant-pink text-white'
+                          : 'bg-gray-100 hover:bg-gray-200'
+                      }`}
+                      title="Upload reference image (Coming soon)"
+                    >
+                      <Image className={`h-5 w-5 transition-colors ${
+                        showImageUpload || selectedImage
+                          ? 'text-white'
+                          : 'text-gray-600 group-hover:text-vibrant-pink'
+                      }`} />
+                      {!showImageUpload && !selectedImage && (
+                        <div className="absolute inset-0 bg-vibrant-pink opacity-0 group-hover:opacity-10 rounded-full transition-opacity"></div>
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Generate button - right aligned */}
+                <button
+                  type="submit"
+                  disabled={isGenerating}
+                  className={`px-4 py-2 rounded-full font-semibold transition-all flex items-center space-x-2 relative overflow-hidden ${
+                    !isGenerating
+                      ? 'bg-vibrant-pink text-white hover:bg-pink-600 shadow-lg hover:shadow-xl transform hover:scale-105'
+                      : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                  }`}
+                >
+                  {isGenerating ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span className="font-source-sans text-sm">Creating...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="h-4 w-4" />
+                      <span className="font-source-sans text-sm">Generate Design</span>
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
 
