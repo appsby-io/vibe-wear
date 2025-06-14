@@ -41,7 +41,7 @@ export const ProductConfiguration: React.FC<ProductConfigurationProps> = ({
 
   // Truncate product name for mobile
   const truncateProductName = (productName: string) => {
-    if (productName.length > 15) {
+    if (productName.length > 12) {
       return productName.substring(0, 12) + '...';
     }
     return productName;
@@ -54,7 +54,8 @@ export const ProductConfiguration: React.FC<ProductConfigurationProps> = ({
     onSelect, 
     dropdownKey,
     isMobileHidden = false,
-    useTruncation = false
+    useTruncation = false,
+    hideLabel = false
   }: {
     label: string;
     value: string | number;
@@ -63,6 +64,7 @@ export const ProductConfiguration: React.FC<ProductConfigurationProps> = ({
     dropdownKey: string;
     isMobileHidden?: boolean;
     useTruncation?: boolean;
+    hideLabel?: boolean;
   }) => (
     <div className={`relative ${isMobileHidden ? 'hidden sm:block' : ''}`}>
       <button
@@ -70,7 +72,11 @@ export const ProductConfiguration: React.FC<ProductConfigurationProps> = ({
         className="flex items-center justify-between w-full h-10 px-4 bg-white rounded-full border-0 shadow-lg hover:shadow-xl transition-all font-source-sans"
       >
         <span className="text-sm font-normal text-black">
-          {label}: {useTruncation ? (
+          {/* Show label on desktop, hide on mobile if hideLabel is true */}
+          <span className={hideLabel ? 'hidden sm:inline' : ''}>
+            {hideLabel ? '' : `${label}: `}
+          </span>
+          {useTruncation ? (
             <>
               <span className="sm:hidden">{truncateProductName(value.toString())}</span>
               <span className="hidden sm:inline">{value}</span>
@@ -115,6 +121,7 @@ export const ProductConfiguration: React.FC<ProductConfigurationProps> = ({
               onSelect={(value) => handleOptionSelect('product', value)}
               dropdownKey="product"
               useTruncation={true}
+              hideLabel={true}
             />
             
             <Dropdown
@@ -123,6 +130,7 @@ export const ProductConfiguration: React.FC<ProductConfigurationProps> = ({
               options={colors}
               onSelect={(value) => handleOptionSelect('color', value)}
               dropdownKey="color"
+              hideLabel={true}
             />
             
             <Dropdown
@@ -131,6 +139,7 @@ export const ProductConfiguration: React.FC<ProductConfigurationProps> = ({
               options={sizes}
               onSelect={(value) => handleOptionSelect('size', value)}
               dropdownKey="size"
+              hideLabel={true}
             />
             
             {/* Amount dropdown - hidden on mobile */}

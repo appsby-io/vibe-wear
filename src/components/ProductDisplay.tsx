@@ -114,11 +114,11 @@ export const ProductDisplay: React.FC<ProductDisplayProps> = ({
   const isInteractiveDesign = currentDesign && currentDesign.id !== 'default';
 
   return (
-    <div className="relative bg-white pt-12 pb-4">
+    <div className="relative bg-white pt-6 lg:pt-12 pb-2 lg:pb-4">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         
         {/* Bolt Badge - Positioned at top left corner of content area */}
-        <div className="absolute top-8 left-8">
+        <div className="absolute top-2 lg:top-8 left-4 lg:left-8">
           <button
             onClick={handleBoltBadgeClick}
             className="group flex items-center space-x-2 hover:opacity-80 transition-opacity"
@@ -127,7 +127,7 @@ export const ProductDisplay: React.FC<ProductDisplayProps> = ({
             <img
               src={BoltBadge}
               alt="Powered by Bolt"
-              className="w-20 h-20 rounded-full shadow-sm group-hover:shadow-md transition-shadow"
+              className="w-16 h-16 lg:w-20 lg:h-20 rounded-full shadow-sm group-hover:shadow-md transition-shadow"
             />
             <div className="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
               <span className="text-xs text-gray-600 font-source-sans">Visit bolt.new</span>
@@ -290,7 +290,7 @@ export const ProductDisplay: React.FC<ProductDisplayProps> = ({
 
             {/* Pagination Dots - Closer to the t-shirt */}
             {showSlider && (
-              <div className="flex justify-center mt-3 space-x-2">
+              <div className="flex justify-center mt-2 lg:mt-3 space-x-2">
                 {designs.map((_, index) => (
                   <button
                     key={index}
