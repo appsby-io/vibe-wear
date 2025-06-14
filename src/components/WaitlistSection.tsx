@@ -114,7 +114,7 @@ export const WaitlistSection: React.FC = () => {
             Join Our Waiting List
           </h2>
           
-          <p className="text-lg text-gray-600 mb-8 font-source-sans max-w-2xl mx-auto">
+          <p className="text-m text-gray-600 mb-8 font-source-sans max-w-2xl mx-auto">
             We're still working on the future of AI-powered custom clothing. Join our exclusive waitlist 
             to get early access, special pricing, and be the first to experience the full VIBEWEAR platform.
           </p>
