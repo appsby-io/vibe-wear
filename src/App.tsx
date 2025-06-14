@@ -11,6 +11,7 @@ import { CookieBanner } from './components/CookieBanner';
 import { BetaGateModal } from './components/BetaGateModal';
 import { Toast } from './components/Toast';
 import { Footer } from './components/Footer';
+import { WaitlistSection } from './components/WaitlistSection';
 import { useAppState } from './hooks/useAppState';
 import { useCart } from './hooks/useCart';
 import { useToast } from './hooks/useToast';
@@ -299,6 +300,9 @@ function App() {
         onGenerate={handleGenerate}
         onStyleSelect={handleStyleSelect}
       />
+
+      {/* Waitlist Section - Only show on design view */}
+      <WaitlistSection />
 
       <ErrorDisplay
         generationError={generationError}
