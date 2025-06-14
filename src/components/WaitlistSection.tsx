@@ -98,7 +98,7 @@ export const WaitlistSection: React.FC = () => {
           </div>
           
           <h2 className="text-3xl font-bold text-gray-900 mb-4 font-source-sans">
-            Join our waiting list
+            Join Our Waiting List
           </h2>
           
           <p className="text-lg text-gray-600 mb-8 font-source-sans max-w-2xl mx-auto">
