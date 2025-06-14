@@ -39,25 +39,46 @@ export const ProductConfiguration: React.FC<ProductConfigurationProps> = ({
     setOpenDropdown(null);
   };
 
+  // Truncate product name for mobile
+  const truncateProductName = (productName: string) => {
+    if (productName.length > 15) {
+      return productName.substring(0, 12) + '...';
+    }
+    return productName;
+  };
+
   const Dropdown = ({ 
     label, 
     value, 
     options, 
     onSelect, 
-    dropdownKey 
+    dropdownKey,
+    isMobileHidden = false,
+    useTruncation = false
   }: {
     label: string;
     value: string | number;
     options: (string | number)[];
     onSelect: (value: string | number) => void;
     dropdownKey: string;
+    isMobileHidden?: boolean;
+    useTruncation?: boolean;
   }) => (
-    <div className="relative">
+    <div className={`relative ${isMobileHidden ? 'hidden sm:block' : ''}`}>
       <button
         onClick={() => handleDropdownToggle(dropdownKey)}
         className="flex items-center justify-between w-full h-10 px-4 bg-white rounded-full border-0 shadow-lg hover:shadow-xl transition-all font-source-sans"
       >
-        <span className="text-sm font-normal text-black">{label}: {value}</span>
+        <span className="text-sm font-normal text-black">
+          {label}: {useTruncation ? (
+            <>
+              <span className="sm:hidden">{truncateProductName(value.toString())}</span>
+              <span className="hidden sm:inline">{value}</span>
+            </>
+          ) : (
+            value
+          )}
+        </span>
         <ChevronDown className={`h-4 w-4 transition-transform ${
           openDropdown === dropdownKey ? 'rotate-180' : ''
         }`} />
@@ -85,14 +106,15 @@ export const ProductConfiguration: React.FC<ProductConfigurationProps> = ({
     <div className="bg-white border-b border-gray-100 lg:sticky lg:top-16 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-          {/* Dropdowns container with reduced gap on mobile */}
-          <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 sm:gap-4 items-center">
+          {/* Mobile: 3 dropdowns in one row, Desktop: all dropdowns in a row */}
+          <div className="grid grid-cols-3 sm:flex sm:flex-wrap gap-2 sm:gap-4 items-center">
             <Dropdown
               label="Product"
               value={config.product}
               options={products}
               onSelect={(value) => handleOptionSelect('product', value)}
               dropdownKey="product"
+              useTruncation={true}
             />
             
             <Dropdown
@@ -111,12 +133,14 @@ export const ProductConfiguration: React.FC<ProductConfigurationProps> = ({
               dropdownKey="size"
             />
             
+            {/* Amount dropdown - hidden on mobile */}
             <Dropdown
               label="Amount"
               value={config.amount}
               options={amounts}
               onSelect={(value) => handleOptionSelect('amount', value)}
               dropdownKey="amount"
+              isMobileHidden={true}
             />
           </div>
           
