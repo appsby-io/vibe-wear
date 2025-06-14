@@ -114,11 +114,11 @@ export const ProductDisplay: React.FC<ProductDisplayProps> = ({
   const isInteractiveDesign = currentDesign && currentDesign.id !== 'default';
 
   return (
-    <div className="relative bg-white pt-6 lg:pt-12 pb-2 lg:pb-4">
+    <div className="relative bg-white pt-2 lg:pt-12 pb-2 lg:pb-4">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         
         {/* Bolt Badge - Positioned at top left corner of content area */}
-        <div className="absolute top-2 lg:top-8 left-4 lg:left-8">
+        <div className="absolute top-1 lg:top-8 left-4 lg:left-8">
           <button
             onClick={handleBoltBadgeClick}
             className="group flex items-center space-x-2 hover:opacity-80 transition-opacity"

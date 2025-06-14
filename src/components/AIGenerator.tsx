@@ -81,7 +81,7 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({ onGenerate, isGenerati
   const currentError = validationError || error;
 
   return (
-    <div className="bg-white border-b border-gray-100 lg:pt-8 pt-4 pb-8">
+    <div className="bg-white border-b border-gray-100 lg:pt-8 pt-2 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <form onSubmit={handleSubmit} className="max-w-4xl mx-auto">
           <div className="relative">
@@ -181,10 +181,10 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({ onGenerate, isGenerati
 
             {/* Mobile Layout */}
             <div className="lg:hidden">
-              {/* Text input area */}
+              {/* Text input area with buttons inside at bottom */}
               <div className={`relative bg-white rounded-2xl border-2 transition-all ${
                 currentError ? 'border-red-300' : 'border-black'
-              }`} style={{ minHeight: '80px' }}>
+              }`} style={{ minHeight: '100px' }}>
                 {/* Enhanced watermark text */}
                 {!prompt && (
                   <div className="absolute top-3 left-4 text-gray-400 text-sm font-source-sans pointer-events-none">
@@ -197,80 +197,80 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({ onGenerate, isGenerati
                   value={prompt}
                   onChange={handlePromptChange}
                   placeholder=""
-                  className="w-full px-4 pt-8 pb-4 bg-transparent text-base placeholder-gray-500 focus:outline-none resize-none font-source-sans"
+                  className="w-full px-4 pt-8 pb-16 bg-transparent text-base placeholder-gray-500 focus:outline-none resize-none font-source-sans"
                   disabled={isGenerating}
                   rows={2}
                   maxLength={1000}
                 />
-              </div>
 
-              {/* Bottom row with icons and generate button */}
-              <div className="flex items-center justify-between mt-3">
-                {/* Left side icons */}
-                <div className="flex space-x-2">
-                  <div className="relative">
-                    <button
-                      type="button"
-                      onClick={handleMicClick}
-                      className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-all relative overflow-hidden group"
-                      title="Voice input"
-                    >
-                      <Mic className="h-5 w-5 text-gray-600 group-hover:text-vibrant-pink transition-colors" />
-                      <div className="absolute inset-0 bg-vibrant-pink opacity-0 group-hover:opacity-10 rounded-full transition-opacity"></div>
-                    </button>
-                    {showTooltip === 'mic' && (
-                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-black text-white text-sm rounded-lg whitespace-nowrap z-50">
-                        Coming soon 🦘
-                        <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-2 h-2 bg-black rotate-45"></div>
-                      </div>
-                    )}
-                  </div>
-                  
-                  <div className="relative">
-                    <button
-                      type="button"
-                      onClick={handleImageClick}
-                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all relative overflow-hidden group ${
-                        showImageUpload || selectedImage
-                          ? 'bg-vibrant-pink text-white'
-                          : 'bg-gray-100 hover:bg-gray-200'
-                      }`}
-                      title="Upload reference image (Coming soon)"
-                    >
-                      <Image className={`h-5 w-5 transition-colors ${
-                        showImageUpload || selectedImage
-                          ? 'text-white'
-                          : 'text-gray-600 group-hover:text-vibrant-pink'
-                      }`} />
-                      {!showImageUpload && !selectedImage && (
+                {/* Bottom row with icons and generate button - inside the input field */}
+                <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between">
+                  {/* Left side icons */}
+                  <div className="flex space-x-2">
+                    <div className="relative">
+                      <button
+                        type="button"
+                        onClick={handleMicClick}
+                        className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-all relative overflow-hidden group"
+                        title="Voice input"
+                      >
+                        <Mic className="h-4 w-4 text-gray-600 group-hover:text-vibrant-pink transition-colors" />
                         <div className="absolute inset-0 bg-vibrant-pink opacity-0 group-hover:opacity-10 rounded-full transition-opacity"></div>
+                      </button>
+                      {showTooltip === 'mic' && (
+                        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-black text-white text-sm rounded-lg whitespace-nowrap z-50">
+                          Coming soon 🦘
+                          <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-2 h-2 bg-black rotate-45"></div>
+                        </div>
                       )}
-                    </button>
+                    </div>
+                    
+                    <div className="relative">
+                      <button
+                        type="button"
+                        onClick={handleImageClick}
+                        className={`w-8 h-8 rounded-full flex items-center justify-center transition-all relative overflow-hidden group ${
+                          showImageUpload || selectedImage
+                            ? 'bg-vibrant-pink text-white'
+                            : 'bg-gray-100 hover:bg-gray-200'
+                        }`}
+                        title="Upload reference image (Coming soon)"
+                      >
+                        <Image className={`h-4 w-4 transition-colors ${
+                          showImageUpload || selectedImage
+                            ? 'text-white'
+                            : 'text-gray-600 group-hover:text-vibrant-pink'
+                        }`} />
+                        {!showImageUpload && !selectedImage && (
+                          <div className="absolute inset-0 bg-vibrant-pink opacity-0 group-hover:opacity-10 rounded-full transition-opacity"></div>
+                        )}
+                      </button>
+                    </div>
                   </div>
-                </div>
 
-                {/* Generate button - right aligned */}
-                <button
-                  type="submit"
-                  disabled={isGenerating}
-                  className={`px-4 py-2 rounded-full font-semibold transition-all flex items-center space-x-2 relative overflow-hidden ${
-                    !isGenerating
-                      ? 'bg-vibrant-pink text-white hover:bg-pink-600 shadow-lg hover:shadow-xl transform hover:scale-105'
-                      : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                  }`}
-                >
-                  {isGenerating ? (
-                    <>
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      <span className="font-source-sans text-sm">Creating...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="h-4 w-4" />
-                      <span className="font-source-sans text-sm">Generate Design</span>
-                    </>
-                  )}
-                </button>
+                  {/* Generate button - right aligned */}
+                  <button
+                    type="submit"
+                    disabled={isGenerating}
+                    className={`px-3 py-2 rounded-full font-semibold transition-all flex items-center space-x-1 relative overflow-hidden ${
+                      !isGenerating
+                        ? 'bg-vibrant-pink text-white hover:bg-pink-600 shadow-lg hover:shadow-xl transform hover:scale-105'
+                        : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    }`}
+                  >
+                    {isGenerating ? (
+                      <>
+                        <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        <span className="font-source-sans text-xs">Creating...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="h-3 w-3" />
+                        <span className="font-source-sans text-xs">Generate</span>
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
