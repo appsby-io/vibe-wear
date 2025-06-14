@@ -65,7 +65,7 @@ export const WaitlistSection: React.FC = () => {
 
   if (isSuccess) {
     return (
-      <section className="bg-vibrant-pink py-16">
+      <section className="bg-vibrant-pink">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="bg-white rounded-2xl shadow-lg p-8">
             <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
