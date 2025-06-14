@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
+import { LottieAnimation } from './LottieAnimation';
 import KangarooImage from '../assets/cangaroo-hammock.jpg';
+import successAnimationData from '../assets/success.json';
 
 export const WaitlistSection: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -69,9 +71,16 @@ export const WaitlistSection: React.FC = () => {
       <section id="waitlist-section" className="bg-gradient-to-br from-vibrant-pink/10 to-purple-100 py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="bg-white rounded-2xl shadow-lg p-8">
-            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <CheckCircleIcon className="w-12 h-12 text-green-500" />
+            {/* Success Animation */}
+            <div className="flex justify-center mb-6">
+              <LottieAnimation
+                animationData={successAnimationData}
+                className="w-32 h-32"
+                loop={false}
+                autoplay={true}
+              />
             </div>
+            
             <h2 className="text-3xl font-bold text-gray-900 mb-4 font-source-sans">
               You're on the list! 🎉
             </h2>
@@ -97,7 +106,7 @@ export const WaitlistSection: React.FC = () => {
             <img 
               src={KangarooImage} 
               alt="Kangaroo in hammock" 
-              style={{ width: '150px', height: '150px', objectFit: 'cover' }}
+              className="w-32 h-32 lg:w-40 lg:h-40 object-cover rounded-full"
             />
           </div>
           

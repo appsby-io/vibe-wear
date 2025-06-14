@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronDown, ShoppingCart } from 'lucide-react';
+import { ChevronDown, ShoppingCart, X } from 'lucide-react';
 
 interface ProductConfig {
   product: string;
@@ -90,8 +90,9 @@ export const ProductConfiguration: React.FC<ProductConfigurationProps> = ({
         }`} />
       </button>
       
+      {/* Desktop Dropdown */}
       {openDropdown === dropdownKey && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-lg z-20 animate-slide-up">
+        <div className="hidden lg:block absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-lg z-20 animate-slide-up">
           <div className="py-2 max-h-48 overflow-y-auto">
             {options.map((option) => (
               <button
@@ -102,6 +103,51 @@ export const ProductConfiguration: React.FC<ProductConfigurationProps> = ({
                 {option}
               </button>
             ))}
+          </div>
+        </div>
+      )}
+
+      {/* Mobile Bottom Sheet */}
+      {openDropdown === dropdownKey && (
+        <div className="lg:hidden fixed inset-0 z-50 flex items-end">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black bg-opacity-50"
+            onClick={() => setOpenDropdown(null)}
+          />
+          
+          {/* Bottom Sheet */}
+          <div className="relative w-full bg-white rounded-t-2xl shadow-xl animate-slide-up">
+            {/* Header */}
+            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+              <h3 className="text-lg font-semibold text-gray-900 font-source-sans">
+                Select {label}
+              </h3>
+              <button
+                onClick={() => setOpenDropdown(null)}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <X className="w-5 h-5 text-gray-500" />
+              </button>
+            </div>
+            
+            {/* Options */}
+            <div className="max-h-80 overflow-y-auto">
+              {options.map((option) => (
+                <button
+                  key={option}
+                  onClick={() => onSelect(option)}
+                  className={`w-full px-6 py-4 text-left text-base hover:bg-gray-50 transition-colors font-source-sans border-b border-gray-100 last:border-b-0 ${
+                    option === value ? 'bg-vibrant-pink/10 text-vibrant-pink font-semibold' : 'text-gray-900'
+                  }`}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+            
+            {/* Safe area padding for mobile */}
+            <div className="h-6"></div>
           </div>
         </div>
       )}
@@ -213,10 +259,10 @@ export const ProductConfiguration: React.FC<ProductConfigurationProps> = ({
             </span>
             <button 
               onClick={onAddToCart}
-              className="flex items-center gap-2 h-10 px-6 bg-black text-white rounded-full hover:bg-gray-800 transition-colors font-source-sans font-semibold"
+              className="flex items-center gap-2 px-3 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition-colors font-source-sans font-semibold"
             >
-              <ShoppingCart className="h-4 w-4" />
-              Add to Cart
+              <ShoppingCart className="h-3 w-3" />
+              <span className="text-xs">Add to Cart</span>
             </button>
           </div>
         </div>
