@@ -27,10 +27,22 @@ export const WaitlistSection: React.FC = () => {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to join waitlist');
+        // Try to parse error response as JSON, but handle cases where it's not valid JSON
+        let errorMessage = 'Failed to join waitlist';
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.error || errorMessage;
+        } catch (jsonError) {
+          // If JSON parsing fails, use a generic error message
+          console.warn('Failed to parse error response as JSON:', jsonError);
+          errorMessage = `Server error (${response.status}). Please try again.`;
+        }
+        throw new Error(errorMessage);
       }
 
+      // Only try to parse JSON if response is ok
+      await response.json();
+      
       setIsSuccess(true);
       setEmail('');
 
