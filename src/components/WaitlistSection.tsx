@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CheckCircleIcon } from '@heroicons/react/24/outline';
+import { CheckIcon } from '@heroicons/react/24/outline';
 import { LottieAnimation } from './LottieAnimation';
 import KangarooImage from '../assets/cangaroo-hammock.jpg';
 import successAnimationData from '../assets/success.json';
@@ -12,10 +12,17 @@ export const WaitlistSection: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim()) return;
+    
+    // Clear previous error
+    setError(null);
+    
+    // Validate email input
+    if (!email.trim()) {
+      setError('Please enter your email address');
+      return;
+    }
 
     setIsSubmitting(true);
-    setError(null);
 
     try {
       // Use the correct Supabase function URL
@@ -114,32 +121,13 @@ export const WaitlistSection: React.FC = () => {
             Join Our Waiting List
           </h2>
           
-          <p className="text-super text-gray-600 mb-8 font-source-sans max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 mb-8 font-source-sans max-w-2xl mx-auto">
             We're still working on the future of AI-powered custom clothing. Join our exclusive waitlist 
             to get early access, special pricing, and be the first to experience the full VIBEWEAR platform.
           </p>
 
-          <div className="bg-gray-50 rounded-xl p-6 mb-8">
-            <h3 className="text-l font-semibold text-gray-900 mb-4 font-source-sans">
-              What you'll get as an early member:
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-              <div className="flex items-center space-x-2">
-                <span className="w-2 h-2 bg-vibrant-pink rounded-full"></span>
-                <span className="text-gray-700 font-source-sans">Early access to new features</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <span className="w-2 h-2 bg-vibrant-pink rounded-full"></span>
-                <span className="text-gray-700 font-source-sans">Exclusive beta pricing</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <span className="w-2 h-2 bg-vibrant-pink rounded-full"></span>
-                <span className="text-gray-700 font-source-sans">Priority customer support</span>
-              </div>
-            </div>
-          </div>
-
-          <form onSubmit={handleSubmit} className="max-w-md mx-auto">
+          {/* Email Input Section - Moved before benefits */}
+          <form onSubmit={handleSubmit} className="max-w-md mx-auto mb-8">
             <div className="flex flex-col sm:flex-row gap-3">
               <input
                 type="email"
@@ -147,12 +135,11 @@ export const WaitlistSection: React.FC = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email address"
                 className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vibrant-pink focus:border-vibrant-pink transition-colors font-source-sans"
-                required
                 disabled={isSubmitting}
               />
               <button
                 type="submit"
-                disabled={isSubmitting || !email.trim()}
+                disabled={isSubmitting}
                 className="px-6 py-3 bg-vibrant-pink text-white rounded-lg hover:bg-pink-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-source-sans font-semibold whitespace-nowrap"
               >
                 {isSubmitting ? (
@@ -172,6 +159,27 @@ export const WaitlistSection: React.FC = () => {
               </div>
             )}
           </form>
+
+          {/* Benefits Section - Moved after email input */}
+          <div className="bg-gray-50 rounded-xl p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 font-source-sans">
+              What you'll get as an early member:
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+              <div className="flex items-center space-x-3">
+                <CheckIcon className="w-5 h-5 text-green-500 flex-shrink-0" />
+                <span className="text-gray-700 font-source-sans">Early access to new features</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <CheckIcon className="w-5 h-5 text-green-500 flex-shrink-0" />
+                <span className="text-gray-700 font-source-sans">Exclusive beta pricing</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <CheckIcon className="w-5 h-5 text-green-500 flex-shrink-0" />
+                <span className="text-gray-700 font-source-sans">Priority customer support</span>
+              </div>
+            </div>
+          </div>
 
           <p className="text-xs text-gray-500 mt-4 font-source-sans">
             We respect your privacy. No spam, just updates on our launch.
