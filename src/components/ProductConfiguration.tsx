@@ -82,10 +82,11 @@ export const ProductConfiguration: React.FC<ProductConfigurationProps> = ({
   );
 
   return (
-    <div className="bg-white border-b border-gray-100 sticky top-16 z-40">
+    <div className="bg-white border-b border-gray-100 lg:sticky lg:top-16 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <div className="flex flex-wrap gap-4 items-center justify-between">
-          <div className="flex flex-wrap gap-4 items-center">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          {/* Dropdowns container with reduced gap on mobile */}
+          <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 sm:gap-4 items-center">
             <Dropdown
               label="Product"
               value={config.product}
@@ -119,7 +120,8 @@ export const ProductConfiguration: React.FC<ProductConfigurationProps> = ({
             />
           </div>
           
-          <div className="flex items-center gap-4">
+          {/* Price and Add to Cart - Right aligned on mobile */}
+          <div className="flex items-center justify-end gap-4">
             <span className="text-3xl font-bold text-black font-source-sans">
               ${totalPrice}
             </span>

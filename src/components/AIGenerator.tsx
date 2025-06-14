@@ -81,13 +81,13 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({ onGenerate, isGenerati
   const currentError = validationError || error;
 
   return (
-    <div className="bg-white border-b border-gray-100" style={{ paddingTop: '8px', paddingBottom: '32px' }}>
+    <div className="bg-white border-b border-gray-100 lg:pt-8 pt-4 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <form onSubmit={handleSubmit} className="max-w-4xl mx-auto">
           <div className="relative">
             <div className={`relative flex items-center bg-white rounded-2xl border-2 transition-all ${
               currentError ? 'border-red-300' : 'border-black'
-            }`} style={{ height: '124px' }}>
+            }`} style={{ minHeight: '100px' }}>
               {/* Enhanced watermark text */}
               {!prompt && (
                 <div className="absolute top-4 left-4 text-gray-400 text-sm font-source-sans pointer-events-none">
@@ -145,20 +145,20 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({ onGenerate, isGenerati
                 placeholder=""
                 className="flex-1 px-4 pt-12 pb-16 bg-transparent text-lg placeholder-gray-500 focus:outline-none resize-none font-source-sans"
                 disabled={isGenerating}
-                rows={3}
+                rows={2}
                 maxLength={1000}
               />
 
-              {/* Character counter - moved to bottom right corner */}
-              <div className="absolute bottom-4 right-20 text-xs text-gray-400 font-source-sans">
+              {/* Character counter - hidden on mobile */}
+              <div className="absolute bottom-4 right-20 text-xs text-gray-400 font-source-sans hidden sm:block">
                 {prompt.length}/1000
               </div>
 
-              {/* Enhanced generate button - always enabled */}
+              {/* Enhanced generate button - smaller height on mobile */}
               <button
                 type="submit"
                 disabled={isGenerating}
-                className={`absolute right-4 bottom-4 px-6 py-3 rounded-full font-semibold transition-all flex items-center space-x-2 relative overflow-hidden ${
+                className={`absolute right-4 bottom-4 px-6 py-2 sm:py-3 rounded-full font-semibold transition-all flex items-center space-x-2 relative overflow-hidden ${
                   !isGenerating
                     ? 'bg-vibrant-pink text-white hover:bg-pink-600 shadow-lg hover:shadow-xl transform hover:scale-105'
                     : 'bg-gray-200 text-gray-400 cursor-not-allowed'

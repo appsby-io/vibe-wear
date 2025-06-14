@@ -33,7 +33,7 @@ export const DesignView: React.FC<DesignViewProps> = React.memo(({
   onStyleSelect,
 }) => {
   return (
-    <>
+    <div className="lg:pt-16">
       <ProductConfiguration
         config={productConfig}
         onConfigChange={onConfigChange}
@@ -60,7 +60,7 @@ export const DesignView: React.FC<DesignViewProps> = React.memo(({
         selectedStyle={selectedStyle}
         onStyleSelect={onStyleSelect}
       />
-    </>
+    </div>
   );
 });
 
