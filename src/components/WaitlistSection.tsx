@@ -97,7 +97,6 @@ export const WaitlistSection: React.FC = () => {
             <img 
               src={KangarooImage} 
               alt="Kangaroo in hammock" 
-              className="rounded-lg shadow-md"
               style={{ width: '150px', height: '150px', objectFit: 'cover' }}
             />
           </div>
