@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { CheckCircleIcon, RocketLaunchIcon } from '@heroicons/react/24/outline';
+import { CheckCircleIcon } from '@heroicons/react/24/outline';
+import KangarooImage from '../assets/cangaroo-hammock.jpg';
 
 export const WaitlistSection: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -93,8 +94,12 @@ export const WaitlistSection: React.FC = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="bg-white rounded-2xl shadow-lg p-8">
           <div className="flex items-center justify-center mb-6">
-            <RocketLaunchIcon className="w-12 h-12 text-vibrant-pink mr-3" />
-            <span className="text-4xl">🚀</span>
+            <img 
+              src={KangarooImage} 
+              alt="Kangaroo in hammock" 
+              className="rounded-lg shadow-md"
+              style={{ width: '150px', height: '150px', objectFit: 'cover' }}
+            />
           </div>
           
           <h2 className="text-3xl font-bold text-gray-900 mb-4 font-source-sans">
