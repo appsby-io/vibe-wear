@@ -15,10 +15,15 @@ export const WaitlistSection: React.FC = () => {
     setError(null);
 
     try {
-      const response = await fetch('/api/waitlist', {
+      // Use the correct Supabase function URL
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const apiUrl = `${supabaseUrl}/functions/v1/waitlist`;
+
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
         },
         body: JSON.stringify({
           email: email.trim(),
