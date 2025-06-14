@@ -93,6 +93,16 @@ function App() {
     console.log('Analytics tracking declined');
   };
 
+  const scrollToWaitlist = () => {
+    const waitlistSection = document.getElementById('waitlist-section');
+    if (waitlistSection) {
+      waitlistSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
+
   const handleGenerate = async (prompt: string, styleOverride?: string, referenceImage?: File) => {
     // Track design generation
     ga.trackDesignGeneration(prompt.length, styleOverride || selectedStyle || undefined);
@@ -133,39 +143,13 @@ function App() {
   };
 
   const handleAddToCart = async () => {
-    // Check if we should show beta gate modal first
-    if (betaGateEnabled && (designCount >= 3 || cartItems.length === 0)) {
-      setShowBetaGate(true);
-      return;
-    }
-
-    const currentDesign = designs[currentDesignIndex];
-    if (currentDesign) {
-      // Track add to cart
-      ga.trackAddToCart([{
-        item_id: currentDesign.id,
-        item_name: currentDesign.name,
-        item_category: 'custom_design',
-        price: 19.95,
-        quantity: productConfig.amount,
-      }]);
-    }
-
-    await handleAddToCartLogic(
-      designs,
-      currentDesignIndex,
-      productConfig,
-      selectedStyle,
-      addToCart,
-      setShowSnackbar,
-      setDesigns
-    );
+    // Scroll to waitlist section instead of adding to cart
+    scrollToWaitlist();
   };
 
   const handleProceedToCheckout = () => {
-    if (cartItems.length === 0) return;
-    ga.trackBeginCheckout();
-    setCurrentView('checkout');
+    // Scroll to waitlist section instead of going to checkout
+    scrollToWaitlist();
   };
 
   const handleBackToDesign = () => {
