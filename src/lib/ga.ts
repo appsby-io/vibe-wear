@@ -83,6 +83,30 @@ class GoogleAnalytics {
     this.track('survey_complete');
   }
 
+  trackWaitlistModalShown() {
+    this.track('waitlist_modal_shown');
+  }
+
+  trackWaitlistModalDismissed() {
+    this.track('waitlist_modal_dismissed');
+  }
+
+  trackGenerationError(errorMessage: string) {
+    this.track('generation_error', {
+      error_message: errorMessage,
+    });
+  }
+
+  trackImageViewLarge() {
+    this.track('image_view_large');
+  }
+
+  trackFeatureClick(feature: string) {
+    this.track('feature_click', {
+      feature_name: feature,
+    });
+  }
+
   setUserProperty(propertyName: string, value: any) {
     if (!this.isInitialized) return;
     

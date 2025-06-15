@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
 import { User, ShoppingCart } from 'lucide-react';
 import Logo from '../assets/logo.svg';
+import { ga } from '../lib/ga';
 
 interface HeaderProps {
   cartCount: number;
   onCartClick?: () => void;
   onLogoClick?: () => void;
+  onFeatureClick?: (feature: string) => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ cartCount, onCartClick, onLogoClick }) => {
+export const Header: React.FC<HeaderProps> = ({ 
+  cartCount, 
+  onCartClick, 
+  onLogoClick, 
+  onFeatureClick 
+}) => {
   const [showTooltip, setShowTooltip] = useState<string | null>(null);
 
   const handleTooltipClick = (buttonType: string) => {
@@ -17,11 +24,23 @@ export const Header: React.FC<HeaderProps> = ({ cartCount, onCartClick, onLogoCl
   };
 
   const handleCartClick = () => {
+    ga.trackFeatureClick('cart');
+    if (onFeatureClick) {
+      onFeatureClick('cart');
+    }
     if (cartCount > 0 && onCartClick) {
       onCartClick();
     } else {
       handleTooltipClick('cart');
     }
+  };
+
+  const handleProfileClick = () => {
+    ga.trackFeatureClick('profile');
+    if (onFeatureClick) {
+      onFeatureClick('profile');
+    }
+    handleTooltipClick('profile');
   };
 
   const handleLogoClick = () => {
@@ -40,7 +59,7 @@ export const Header: React.FC<HeaderProps> = ({ cartCount, onCartClick, onLogoCl
               onClick={handleLogoClick}
               className="hover:opacity-80 transition-opacity"
             >
-              <img src={Logo} alt="VIBEWEAR" className="h-8" />
+              <img src={Logo} alt="VIBE-WEAR" className="h-8" />
             </button>
           </div>
 
@@ -49,7 +68,7 @@ export const Header: React.FC<HeaderProps> = ({ cartCount, onCartClick, onLogoCl
             <div className="relative">
               <button 
                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                onClick={() => handleTooltipClick('profile')}
+                onClick={handleProfileClick}
               >
                 <User className="h-6 w-6" />
               </button>

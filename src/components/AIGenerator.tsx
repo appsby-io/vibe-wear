@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Sparkles, Mic, Image, AlertCircle } from 'lucide-react';
 import { validatePrompt } from '../utils/imageGeneration';
 import { ImageUpload } from './ImageUpload';
+import { ga } from '../lib/ga';
 
 interface AIGeneratorProps {
   onGenerate: (prompt: string, styleOverride?: string) => void;
@@ -62,6 +63,7 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({ onGenerate, isGenerati
   };
 
   const handleTooltipClick = (buttonType: string) => {
+    ga.trackFeatureClick(buttonType);
     setShowTooltip(buttonType);
     setTimeout(() => setShowTooltip(null), 2000);
   };
@@ -71,6 +73,7 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({ onGenerate, isGenerati
   };
 
   const handleImageClick = () => {
+    ga.trackFeatureClick('image_upload');
     setShowImageUpload(!showImageUpload);
   };
 
@@ -322,18 +325,16 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({ onGenerate, isGenerati
             </div>
           )}
 
-          {/* Quality indicator with testing mode notice */}
+          {/* Quality indicator with beta notice */}
           {selectedStyle && isApiKeyAvailable && (
             <div className="mt-4 flex items-center justify-center">
               <div className="inline-flex items-center px-4 py-2 bg-vibrant-pink/10 rounded-full">
                 <span className="text-vibrant-pink text-sm font-medium font-source-sans">
-                  You are using the BETA version. Please join our wating list.
+                  You are using the BETA version. Please join our waiting list.
                 </span>
               </div>
             </div>
           )}
-
-
         </form>
       </div>
     </div>

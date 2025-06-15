@@ -3,6 +3,7 @@ import { CheckIcon } from '@heroicons/react/24/outline';
 import { LottieAnimation } from './LottieAnimation';
 import KangarooImage from '../assets/cangaroo-hammock.jpg';
 import successAnimationData from '../assets/success.json';
+import { ga } from '../lib/ga';
 
 export const WaitlistSection: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -60,6 +61,7 @@ export const WaitlistSection: React.FC = () => {
       
       setIsSuccess(true);
       setEmail('');
+      ga.trackSignUp('waitlist_section');
 
       // Reset success state after 5 seconds
       setTimeout(() => {
@@ -70,6 +72,14 @@ export const WaitlistSection: React.FC = () => {
       setError(err.message || 'Failed to join waitlist. Please try again.');
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleSurveyClick = () => {
+    const googleFormUrl = import.meta.env.VITE_GOOGLE_FORM_URL;
+    if (googleFormUrl) {
+      window.open(googleFormUrl, '_blank');
+      ga.trackSurveyOpen();
     }
   };
 
@@ -92,8 +102,22 @@ export const WaitlistSection: React.FC = () => {
               You're on the list! 🎉
             </h2>
             <p className="text-lg text-gray-600 mb-6 font-source-sans">
-              Thanks for joining our beta waitlist. We'll notify you as soon as VIBEWEAR launches!
+              Thanks for joining our beta waitlist. We'll notify you as soon as VIBE-WEAR launches!
             </p>
+            
+            {/* Survey Section */}
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+              <p className="text-blue-800 font-source-sans mb-3">
+                👉 Got 20 seconds? Help us build something better.
+              </p>
+              <button
+                onClick={handleSurveyClick}
+                className="text-blue-600 hover:text-blue-800 font-medium font-source-sans underline text-lg"
+              >
+                📝 Share your ideas →
+              </button>
+            </div>
+            
             <div className="bg-green-50 border border-green-200 rounded-lg p-4">
               <p className="text-sm text-green-800 font-source-sans">
                 Keep an eye on your inbox for exclusive early access and special perks.
@@ -123,7 +147,7 @@ export const WaitlistSection: React.FC = () => {
           
           <p className="text-lg text-gray-600 mb-8 font-source-sans max-w-2xl mx-auto">
             We're still working on the future of AI-powered custom clothing. Join our exclusive waitlist 
-            to get early access, special pricing, and be the first to experience the full VIBEWEAR platform.
+            to get early access, special pricing, and be the first to experience the full VIBE-WEAR platform.
           </p>
 
           {/* Email Input Section - Moved before benefits */}
@@ -159,6 +183,19 @@ export const WaitlistSection: React.FC = () => {
               </div>
             )}
           </form>
+
+          {/* Survey Section */}
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+            <p className="text-blue-800 font-source-sans mb-2">
+              👉 Got 20 seconds? Help us build something better.
+            </p>
+            <button
+              onClick={handleSurveyClick}
+              className="text-blue-600 hover:text-blue-800 font-medium font-source-sans underline"
+            >
+              📝 Share your ideas →
+            </button>
+          </div>
 
           {/* Benefits Section - Moved after email input */}
           <div className="bg-gray-50 rounded-xl p-6">

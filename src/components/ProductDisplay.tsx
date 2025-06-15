@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, Download, Share2, Eye, Maximize2, ExternalLi
 import { DesignAnalysis } from './DesignAnalysis';
 import { ImageModal } from './ImageModal';
 import { LottieLoadingAnimation } from './LottieLoadingAnimation';
+import { ga } from '../lib/ga';
 import PremiumCottonTee from '../assets/premium_cotton_tee.jpg';
 import PremiumCottonSweatshirt from '../assets/premium_cotton_sweatshirt.jpg';
 import PremiumLightHoodie from '../assets/premium_light_hoodie.jpg';
@@ -34,6 +35,7 @@ interface ProductDisplayProps {
   productConfig: ProductConfig;
   originalPrompt?: string;
   selectedStyle?: string;
+  onImageViewLarge?: () => void;
 }
 
 export const ProductDisplay: React.FC<ProductDisplayProps> = ({
@@ -44,6 +46,7 @@ export const ProductDisplay: React.FC<ProductDisplayProps> = ({
   productConfig,
   originalPrompt = '',
   selectedStyle = 'realistic',
+  onImageViewLarge,
 }) => {
   const [showTooltip, setShowTooltip] = useState<string | null>(null);
   const [showAnalysis, setShowAnalysis] = useState(false);
@@ -65,18 +68,24 @@ export const ProductDisplay: React.FC<ProductDisplayProps> = ({
   };
 
   const handleDownload = () => {
+    ga.trackFeatureClick('download');
     handleTooltipClick('download');
   };
 
   const handleShare = () => {
+    ga.trackFeatureClick('share');
     handleTooltipClick('share');
   };
 
   const handleAnalyze = () => {
+    ga.trackFeatureClick('analyze');
     setShowAnalysis(true);
   };
 
   const handleViewLarger = () => {
+    if (onImageViewLarge) {
+      onImageViewLarge();
+    }
     setShowImageModal(true);
   };
 
@@ -87,7 +96,7 @@ export const ProductDisplay: React.FC<ProductDisplayProps> = ({
   // Handle clicking on the design image to open modal
   const handleDesignImageClick = () => {
     if (currentDesign && isInteractiveDesign) {
-      setShowImageModal(true);
+      handleViewLarger();
     }
   };
 

@@ -18,7 +18,7 @@ export interface Design {
   quality?: string;
 }
 
-export type AppView = 'design' | 'checkout' | 'success' | 'imprint' | 'admin';
+export type AppView = 'design' | 'checkout' | 'success' | 'imprint' | 'admin' | 'privacy' | 'terms';
 
 // Constants for better maintainability
 export const PRODUCT_TYPES = [

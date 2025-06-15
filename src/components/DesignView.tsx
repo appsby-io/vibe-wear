@@ -17,6 +17,7 @@ interface DesignViewProps {
   selectedStyle: string | null;
   onGenerate: (prompt: string, styleOverride?: string) => void;
   onStyleSelect: (styleId: string) => void;
+  onImageViewLarge?: () => void;
 }
 
 export const DesignView: React.FC<DesignViewProps> = React.memo(({
@@ -31,6 +32,7 @@ export const DesignView: React.FC<DesignViewProps> = React.memo(({
   selectedStyle,
   onGenerate,
   onStyleSelect,
+  onImageViewLarge,
 }) => {
   return (
     <div className="lg:pt-16 pb-24 lg:pb-0">
@@ -48,6 +50,7 @@ export const DesignView: React.FC<DesignViewProps> = React.memo(({
         productConfig={productConfig}
         originalPrompt={lastPrompt}
         selectedStyle={selectedStyle || 'realistic'}
+        onImageViewLarge={onImageViewLarge}
       />
       
       <AIGenerator

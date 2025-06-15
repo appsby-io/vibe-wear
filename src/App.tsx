@@ -4,18 +4,19 @@ import { DesignView } from './components/DesignView';
 import { CheckoutPage } from './components/CheckoutPage';
 import { PaymentSuccessPage } from './components/PaymentSuccessPage';
 import { ImprintPage } from './components/ImprintPage';
+import { PrivacyPolicyPage } from './components/PrivacyPolicyPage';
+import { TermsOfServicePage } from './components/TermsOfServicePage';
 import { AdminPage } from './pages/admin';
 import { ErrorDisplay } from './components/ErrorDisplay';
 import { SnackbarNotification } from './components/SnackbarNotification';
 import { CookieBanner } from './components/CookieBanner';
-import { BetaGateModal } from './components/BetaGateModal';
+import { WaitlistModal } from './components/WaitlistModal';
 import { Toast } from './components/Toast';
 import { Footer } from './components/Footer';
 import { WaitlistSection } from './components/WaitlistSection';
 import { useAppState } from './hooks/useAppState';
 import { useCart } from './hooks/useCart';
 import { useToast } from './hooks/useToast';
-import { useFeature } from './store/useFeature';
 import { useDesignCounter } from './store/useDesignCounter';
 import { handleDesignGeneration } from './utils/designGeneration';
 import { handleAddToCartLogic } from './utils/cartHandlers';
@@ -56,14 +57,13 @@ function App() {
   } = useCart();
 
   const { toasts, showToast, removeToast } = useToast();
-  const betaGateEnabled = useFeature('betaGate');
-  const { count: designCount, increment: incrementDesignCount } = useDesignCounter();
-  const [showBetaGate, setShowBetaGate] = React.useState(false);
+  const { count: designCount, increment: incrementDesignCount, shouldShowWaitlistModal } = useDesignCounter();
+  const [showWaitlistModal, setShowWaitlistModal] = React.useState(false);
 
   // Initialize Google Analytics
   useEffect(() => {
     const consent = localStorage.getItem('cookieConsent');
-    const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
+    const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID || 'G-XRSVNZRSFP';
     
     if (consent === 'accepted' && measurementId) {
       ga.initialize(measurementId);
@@ -82,7 +82,7 @@ function App() {
   }, [showToast]);
 
   const handleCookieAccept = () => {
-    const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
+    const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID || 'G-XRSVNZRSFP';
     if (measurementId) {
       ga.initialize(measurementId);
     }
@@ -125,10 +125,13 @@ function App() {
       incrementDesignCount();
       ga.updateDesignGenerationCount(designCount + 1);
       
-      // Check if we should show beta gate modal
-      if (betaGateEnabled && designCount + 1 >= 3) {
-        setShowBetaGate(true);
+      // Check if we should show waitlist modal after 3rd generation
+      if (shouldShowWaitlistModal()) {
+        setShowWaitlistModal(true);
       }
+    } else {
+      // Track generation error
+      ga.trackGenerationError(generationError || 'Unknown error');
     }
   };
 
@@ -143,13 +146,13 @@ function App() {
   };
 
   const handleAddToCart = async () => {
-    // Scroll to waitlist section instead of adding to cart
-    scrollToWaitlist();
+    // Show waitlist modal instead of adding to cart
+    setShowWaitlistModal(true);
   };
 
   const handleProceedToCheckout = () => {
-    // Scroll to waitlist section instead of going to checkout
-    scrollToWaitlist();
+    // Show waitlist modal instead of going to checkout
+    setShowWaitlistModal(true);
   };
 
   const handleBackToDesign = () => {
@@ -185,6 +188,22 @@ function App() {
     setCurrentView('design');
   };
 
+  const handlePrivacyClick = () => {
+    setCurrentView('privacy');
+  };
+
+  const handleBackFromPrivacy = () => {
+    setCurrentView('design');
+  };
+
+  const handleTermsClick = () => {
+    setCurrentView('terms');
+  };
+
+  const handleBackFromTerms = () => {
+    setCurrentView('design');
+  };
+
   const handleAdminClick = () => {
     setCurrentView('admin');
   };
@@ -193,20 +212,13 @@ function App() {
     setCurrentView('design');
   };
 
-  const handleBetaGateContinue = () => {
-    // Allow user to continue with their action
-    if (cartItems.length === 0) {
-      // They were trying to add to cart
-      handleAddToCartLogic(
-        designs,
-        currentDesignIndex,
-        productConfig,
-        selectedStyle,
-        addToCart,
-        setShowSnackbar,
-        setDesigns
-      );
-    }
+  const handleFeatureClick = (feature: string) => {
+    // Show waitlist modal for non-functional features
+    setShowWaitlistModal(true);
+  };
+
+  const handleImageViewLarge = () => {
+    ga.trackImageViewLarge();
   };
 
   // Common header props
@@ -214,6 +226,16 @@ function App() {
     cartCount: getCartCount(),
     onCartClick: handleProceedToCheckout,
     onLogoClick: handleLogoClick,
+    onFeatureClick: handleFeatureClick,
+  };
+
+  // Common footer props
+  const footerProps = {
+    onImprintClick: handleImprintClick,
+    onAdminClick: handleAdminClick,
+    onPrivacyClick: handlePrivacyClick,
+    onTermsClick: handleTermsClick,
+    onFeatureClick: handleFeatureClick,
   };
 
   // Render based on current view
@@ -230,6 +252,24 @@ function App() {
       <div className="min-h-screen bg-white font-source-sans">
         <Header {...headerProps} />
         <ImprintPage onBack={handleBackFromImprint} />
+      </div>
+    );
+  }
+
+  if (currentView === 'privacy') {
+    return (
+      <div className="min-h-screen bg-white font-source-sans">
+        <Header {...headerProps} />
+        <PrivacyPolicyPage onBack={handleBackFromPrivacy} />
+      </div>
+    );
+  }
+
+  if (currentView === 'terms') {
+    return (
+      <div className="min-h-screen bg-white font-source-sans">
+        <Header {...headerProps} />
+        <TermsOfServicePage onBack={handleBackFromTerms} />
       </div>
     );
   }
@@ -283,6 +323,7 @@ function App() {
         selectedStyle={selectedStyle}
         onGenerate={handleGenerate}
         onStyleSelect={handleStyleSelect}
+        onImageViewLarge={handleImageViewLarge}
       />
 
       {/* Waitlist Section - Only show on design view */}
@@ -298,7 +339,7 @@ function App() {
         onClose={() => setShowSnackbar(false)}
       />
 
-      <Footer onImprintClick={handleImprintClick} onAdminClick={handleAdminClick} />
+      <Footer {...footerProps} />
 
       {/* Cookie Banner */}
       <CookieBanner
@@ -306,11 +347,10 @@ function App() {
         onDecline={handleCookieDecline}
       />
 
-      {/* Beta Gate Modal */}
-      <BetaGateModal
-        isOpen={showBetaGate}
-        onClose={() => setShowBetaGate(false)}
-        onContinueAnyway={handleBetaGateContinue}
+      {/* Waitlist Modal */}
+      <WaitlistModal
+        isOpen={showWaitlistModal}
+        onClose={() => setShowWaitlistModal(false)}
       />
 
       {/* Toast Notifications */}
