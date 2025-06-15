@@ -57,7 +57,7 @@ function App() {
   } = useCart();
 
   const { toasts, showToast, removeToast } = useToast();
-  const { count: designCount, increment: incrementDesignCount, shouldShowWaitlistModal } = useDesignCounter();
+  const { count: designCount, increment: incrementDesignCount, shouldShowWaitlistModal, canGenerate } = useDesignCounter();
   const [showWaitlistModal, setShowWaitlistModal] = React.useState(false);
 
   // Initialize Google Analytics
@@ -104,6 +104,12 @@ function App() {
   };
 
   const handleGenerate = async (prompt: string, styleOverride?: string, referenceImage?: File) => {
+    // Check if user can still generate
+    if (!canGenerate()) {
+      setShowWaitlistModal(true);
+      return;
+    }
+
     // Track design generation
     ga.trackDesignGeneration(prompt.length, styleOverride || selectedStyle || undefined);
     
@@ -127,7 +133,10 @@ function App() {
       
       // Check if we should show waitlist modal after 3rd generation
       if (shouldShowWaitlistModal()) {
-        setShowWaitlistModal(true);
+        // Show modal after a short delay to let the image appear first
+        setTimeout(() => {
+          setShowWaitlistModal(true);
+        }, 1000);
       }
     } else {
       // Track generation error
@@ -324,6 +333,7 @@ function App() {
         onGenerate={handleGenerate}
         onStyleSelect={handleStyleSelect}
         onImageViewLarge={handleImageViewLarge}
+        canGenerate={canGenerate()}
       />
 
       {/* Waitlist Section - Only show on design view */}

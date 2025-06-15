@@ -6,6 +6,7 @@ interface DesignCounterState {
   increment: () => void;
   reset: () => void;
   shouldShowWaitlistModal: () => boolean;
+  canGenerate: () => boolean;
 }
 
 export const useDesignCounter = create<DesignCounterState>()(
@@ -17,6 +18,10 @@ export const useDesignCounter = create<DesignCounterState>()(
       shouldShowWaitlistModal: () => {
         const { count } = get();
         return count >= 3;
+      },
+      canGenerate: () => {
+        const { count } = get();
+        return count < 3;
       },
     }),
     {

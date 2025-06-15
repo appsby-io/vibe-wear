@@ -1,13 +1,11 @@
 import React from 'react';
-import { X, Download, Share2 } from 'lucide-react';
+import { X } from 'lucide-react';
 
 interface ImageModalProps {
   isOpen: boolean;
   onClose: () => void;
   imageUrl: string;
   designName: string;
-  onDownload?: () => void;
-  onShare?: () => void;
 }
 
 export const ImageModal: React.FC<ImageModalProps> = ({
@@ -15,26 +13,12 @@ export const ImageModal: React.FC<ImageModalProps> = ({
   onClose,
   imageUrl,
   designName,
-  onDownload,
-  onShare,
 }) => {
   if (!isOpen) return null;
 
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       onClose();
-    }
-  };
-
-  const handleDownload = () => {
-    if (onDownload) {
-      onDownload();
-    }
-  };
-
-  const handleShare = () => {
-    if (onShare) {
-      onShare();
     }
   };
 
@@ -50,24 +34,6 @@ export const ImageModal: React.FC<ImageModalProps> = ({
             {designName}
           </h3>
           <div className="flex items-center space-x-2">
-            {onDownload && (
-              <button
-                onClick={handleDownload}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                title="Download design"
-              >
-                <Download className="w-5 h-5 text-gray-600" />
-              </button>
-            )}
-            {onShare && (
-              <button
-                onClick={handleShare}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                title="Share design"
-              >
-                <Share2 className="w-5 h-5 text-gray-600" />
-              </button>
-            )}
             <button
               onClick={onClose}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -86,6 +52,8 @@ export const ImageModal: React.FC<ImageModalProps> = ({
               alt={designName}
               className="max-w-full max-h-full object-contain"
               style={{ maxWidth: '800px', maxHeight: '600px' }}
+              onContextMenu={(e) => e.preventDefault()} // Prevent right-click context menu
+              draggable={false} // Prevent dragging
             />
           </div>
         </div>

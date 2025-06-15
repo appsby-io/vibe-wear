@@ -18,6 +18,7 @@ interface DesignViewProps {
   onGenerate: (prompt: string, styleOverride?: string) => void;
   onStyleSelect: (styleId: string) => void;
   onImageViewLarge?: () => void;
+  canGenerate: boolean;
 }
 
 export const DesignView: React.FC<DesignViewProps> = React.memo(({
@@ -33,6 +34,7 @@ export const DesignView: React.FC<DesignViewProps> = React.memo(({
   onGenerate,
   onStyleSelect,
   onImageViewLarge,
+  canGenerate,
 }) => {
   return (
     <div className="lg:pt-16 pb-24 lg:pb-0">
@@ -57,6 +59,7 @@ export const DesignView: React.FC<DesignViewProps> = React.memo(({
         onGenerate={onGenerate}
         isGenerating={isGenerating}
         selectedStyle={selectedStyle}
+        canGenerate={canGenerate}
       />
       
       <StyleSelection

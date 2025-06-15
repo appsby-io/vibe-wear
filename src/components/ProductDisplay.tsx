@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Download, Share2, Eye, Maximize2, ExternalLink } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Eye, Maximize2, ExternalLink } from 'lucide-react';
 import { DesignAnalysis } from './DesignAnalysis';
 import { ImageModal } from './ImageModal';
 import { LottieLoadingAnimation } from './LottieLoadingAnimation';
@@ -48,7 +48,6 @@ export const ProductDisplay: React.FC<ProductDisplayProps> = ({
   selectedStyle = 'realistic',
   onImageViewLarge,
 }) => {
-  const [showTooltip, setShowTooltip] = useState<string | null>(null);
   const [showAnalysis, setShowAnalysis] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
 
@@ -60,21 +59,6 @@ export const ProductDisplay: React.FC<ProductDisplayProps> = ({
   const handleNext = () => {
     const newIndex = currentDesignIndex === designs.length - 1 ? 0 : currentDesignIndex + 1;
     onDesignChange(newIndex);
-  };
-
-  const handleTooltipClick = (buttonType: string) => {
-    setShowTooltip(buttonType);
-    setTimeout(() => setShowTooltip(null), 2000);
-  };
-
-  const handleDownload = () => {
-    ga.trackFeatureClick('download');
-    handleTooltipClick('download');
-  };
-
-  const handleShare = () => {
-    ga.trackFeatureClick('share');
-    handleTooltipClick('share');
   };
 
   const handleAnalyze = () => {
@@ -176,14 +160,15 @@ export const ProductDisplay: React.FC<ProductDisplayProps> = ({
                 />
               </div>
 
-              {/* Design Overlay - Fixed position, no dragging, no blend mode, no rounded corners */}
+              {/* Design Overlay with spring animation */}
               {shouldShowDesign && (
                 <div
-                  className="absolute cursor-pointer"
+                  className="absolute cursor-pointer animate-bounce"
                   style={{
                     left: '50%',
                     top: '50%',
                     transform: 'translate(-50%, -50%)',
+                    animation: 'spring 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
                   }}
                   onClick={handleDesignImageClick}
                   title={isInteractiveDesign ? "Click to view larger" : undefined}
@@ -197,6 +182,7 @@ export const ProductDisplay: React.FC<ProductDisplayProps> = ({
                       height: window.innerWidth < 1024 ? '120px' : '160px' 
                     }}
                     draggable={false}
+                    onContextMenu={(e) => e.preventDefault()} // Prevent right-click context menu
                   />
                 </div>
               )}
@@ -246,38 +232,6 @@ export const ProductDisplay: React.FC<ProductDisplayProps> = ({
                     >
                       <Eye className="h-5 w-5 text-gray-700 group-hover:text-vibrant-pink transition-colors" />
                     </button>
-                  </div>
-                  
-                  <div className="relative">
-                    <button
-                      onClick={handleDownload}
-                      className="w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-all border border-gray-200 group hover:scale-110 active:scale-95"
-                      title="Download design"
-                    >
-                      <Download className="h-5 w-5 text-gray-700 group-hover:text-vibrant-pink transition-colors" />
-                    </button>
-                    {showTooltip === 'download' && (
-                      <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 px-3 py-2 bg-black text-white text-sm rounded-lg whitespace-nowrap z-50">
-                        Coming soon 🦘
-                        <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-black rotate-45"></div>
-                      </div>
-                    )}
-                  </div>
-                  
-                  <div className="relative">
-                    <button
-                      onClick={handleShare}
-                      className="w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-all border border-gray-200 group hover:scale-110 active:scale-95"
-                      title="Share design"
-                    >
-                      <Share2 className="h-5 w-5 text-gray-700 group-hover:text-vibrant-pink transition-colors" />
-                    </button>
-                    {showTooltip === 'share' && (
-                      <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 px-3 py-2 bg-black text-white text-sm rounded-lg whitespace-nowrap z-50">
-                        Coming soon 🦘
-                        <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-black rotate-45"></div>
-                      </div>
-                    )}
                   </div>
                 </div>
               )}
@@ -341,8 +295,6 @@ export const ProductDisplay: React.FC<ProductDisplayProps> = ({
           onClose={() => setShowImageModal(false)}
           imageUrl={currentDesign.imageUrl}
           designName={currentDesign.name}
-          onDownload={() => handleTooltipClick('download')}
-          onShare={() => handleTooltipClick('share')}
         />
       )}
 
@@ -356,6 +308,23 @@ export const ProductDisplay: React.FC<ProductDisplayProps> = ({
           onClose={() => setShowAnalysis(false)}
         />
       )}
+
+      <style jsx>{`
+        @keyframes spring {
+          0% {
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+          }
+          50% {
+            transform: translate(-50%, -50%) scale(1.1);
+            opacity: 0.8;
+          }
+          100% {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+          }
+        }
+      `}</style>
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { LottieAnimation } from './LottieAnimation';
 import successAnimationData from '../assets/success.json';
+import KangarooImage from '../assets/cangaroo-hammock.jpg';
 import { ga } from '../lib/ga';
 
 interface WaitlistModalProps {
@@ -151,23 +152,32 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({
                       Thanks for joining our waitlist. We'll notify you as soon as VIBE-WEAR launches!
                     </p>
 
-                    {/* Survey Section */}
-                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                      <p className="text-sm text-blue-800 font-source-sans mb-3">
+                    {/* Survey Section with light pink background */}
+                    <div className="bg-pink-50 border border-pink-200 rounded-lg p-4">
+                      <p className="text-pink-800 font-source-sans mb-3">
                         👉 Got 20 seconds? Help us build something better.
                       </p>
                       <button
                         onClick={handleSurveyClick}
-                        className="text-blue-600 hover:text-blue-800 font-medium font-source-sans underline"
+                        className="bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-lg font-medium font-source-sans transition-colors"
                       >
-                        📝 Share your ideas →
+                        Share your ideas
                       </button>
                     </div>
                   </div>
                 ) : (
                   <>
+                    {/* Kangaroo Image */}
+                    <div className="flex justify-center mb-4">
+                      <img 
+                        src={KangarooImage} 
+                        alt="Kangaroo in hammock" 
+                        className="w-24 h-24 object-cover rounded-full"
+                      />
+                    </div>
+
                     <div className="mb-6">
-                      <p className="text-gray-600 font-source-sans">
+                      <p className="text-gray-600 font-source-sans text-center">
                         {headline}
                       </p>
                     </div>

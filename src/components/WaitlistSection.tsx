@@ -105,16 +105,16 @@ export const WaitlistSection: React.FC = () => {
               Thanks for joining our beta waitlist. We'll notify you as soon as VIBE-WEAR launches!
             </p>
             
-            {/* Survey Section */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
-              <p className="text-blue-800 font-source-sans mb-3">
+            {/* Survey Section with light pink background */}
+            <div className="bg-pink-50 border border-pink-200 rounded-lg p-6 mb-6">
+              <p className="text-pink-800 font-source-sans mb-3">
                 👉 Got 20 seconds? Help us build something better.
               </p>
               <button
                 onClick={handleSurveyClick}
-                className="text-blue-600 hover:text-blue-800 font-medium font-source-sans underline text-lg"
+                className="bg-pink-600 hover:bg-pink-700 text-white px-6 py-3 rounded-lg font-medium font-source-sans transition-colors"
               >
-                📝 Share your ideas →
+                Share your ideas
               </button>
             </div>
             
@@ -184,16 +184,16 @@ export const WaitlistSection: React.FC = () => {
             )}
           </form>
 
-          {/* Survey Section */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-            <p className="text-blue-800 font-source-sans mb-2">
+          {/* Survey Section with light pink background */}
+          <div className="bg-pink-50 border border-pink-200 rounded-lg p-4 mb-6">
+            <p className="text-pink-800 font-source-sans mb-2">
               👉 Got 20 seconds? Help us build something better.
             </p>
             <button
               onClick={handleSurveyClick}
-              className="text-blue-600 hover:text-blue-800 font-medium font-source-sans underline"
+              className="bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-lg font-medium font-source-sans transition-colors"
             >
-              📝 Share your ideas →
+              Share your ideas
             </button>
           </div>
 

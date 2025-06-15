@@ -8,9 +8,15 @@ interface AIGeneratorProps {
   onGenerate: (prompt: string, styleOverride?: string) => void;
   isGenerating: boolean;
   selectedStyle?: string | null;
+  canGenerate: boolean;
 }
 
-export const AIGenerator: React.FC<AIGeneratorProps> = ({ onGenerate, isGenerating, selectedStyle }) => {
+export const AIGenerator: React.FC<AIGeneratorProps> = ({ 
+  onGenerate, 
+  isGenerating, 
+  selectedStyle, 
+  canGenerate 
+}) => {
   const [prompt, setPrompt] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [validationError, setValidationError] = useState<string | null>(null);
@@ -22,6 +28,12 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({ onGenerate, isGenerati
     e.preventDefault();
     
     if (isGenerating) return;
+    
+    // Check if user can generate
+    if (!canGenerate) {
+      setValidationError('You have reached the generation limit. Please join our waitlist to continue.');
+      return;
+    }
     
     // Check if prompt is empty
     if (!prompt.trim()) {
@@ -151,7 +163,7 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({ onGenerate, isGenerati
                 onChange={handlePromptChange}
                 placeholder=""
                 className="flex-1 px-4 pt-12 pb-16 bg-transparent text-lg placeholder-gray-500 focus:outline-none resize-none font-source-sans"
-                disabled={isGenerating}
+                disabled={isGenerating || !canGenerate}
                 rows={3}
                 maxLength={1000}
               />
@@ -161,12 +173,12 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({ onGenerate, isGenerati
                 {prompt.length}/1000
               </div>
 
-              {/* Enhanced generate button - always enabled */}
+              {/* Enhanced generate button */}
               <button
                 type="submit"
-                disabled={isGenerating}
+                disabled={isGenerating || !canGenerate}
                 className={`absolute right-4 bottom-4 px-6 py-3 rounded-full font-semibold transition-all flex items-center space-x-2 relative overflow-hidden ${
-                  !isGenerating
+                  !isGenerating && canGenerate
                     ? 'bg-vibrant-pink text-white hover:bg-pink-600 shadow-lg hover:shadow-xl transform hover:scale-105'
                     : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 }`}
@@ -179,7 +191,9 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({ onGenerate, isGenerati
                 ) : (
                   <>
                     <Sparkles className="h-4 w-4" />
-                    <span className="font-source-sans">Generate Design</span>
+                    <span className="font-source-sans">
+                      {canGenerate ? 'Generate Design' : 'Join Waitlist'}
+                    </span>
                   </>
                 )}
               </button>
@@ -204,7 +218,7 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({ onGenerate, isGenerati
                   onChange={handlePromptChange}
                   placeholder=""
                   className="w-full px-4 pt-8 pb-16 bg-transparent text-base placeholder-gray-500 focus:outline-none resize-none font-source-sans"
-                  disabled={isGenerating}
+                  disabled={isGenerating || !canGenerate}
                   rows={2}
                   maxLength={1000}
                 />
@@ -257,9 +271,9 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({ onGenerate, isGenerati
                   {/* Generate button - right aligned */}
                   <button
                     type="submit"
-                    disabled={isGenerating}
+                    disabled={isGenerating || !canGenerate}
                     className={`px-3 py-2 rounded-full font-semibold transition-all flex items-center space-x-1 relative overflow-hidden ${
-                      !isGenerating
+                      !isGenerating && canGenerate
                         ? 'bg-vibrant-pink text-white hover:bg-pink-600 shadow-lg hover:shadow-xl transform hover:scale-105'
                         : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                     }`}
@@ -272,7 +286,9 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({ onGenerate, isGenerati
                     ) : (
                       <>
                         <Sparkles className="h-3 w-3" />
-                        <span className="font-source-sans text-xs">Generate</span>
+                        <span className="font-source-sans text-xs">
+                          {canGenerate ? 'Generate' : 'Join Waitlist'}
+                        </span>
                       </>
                     )}
                   </button>
@@ -325,8 +341,21 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({ onGenerate, isGenerati
             </div>
           )}
 
+          {/* Generation limit notice */}
+          {!canGenerate && (
+            <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-xl flex items-start space-x-3">
+              <AlertCircle className="h-5 w-5 text-blue-500 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="text-blue-700 text-sm font-medium font-source-sans">Generation Limit Reached</p>
+                <p className="text-blue-600 text-sm font-source-sans mt-1">
+                  You've reached the 3 design limit for the beta. Join our waitlist to get early access when we launch!
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* Quality indicator with beta notice */}
-          {selectedStyle && isApiKeyAvailable && (
+          {selectedStyle && isApiKeyAvailable && canGenerate && (
             <div className="mt-4 flex items-center justify-center">
               <div className="inline-flex items-center px-4 py-2 bg-vibrant-pink/10 rounded-full">
                 <span className="text-vibrant-pink text-sm font-medium font-source-sans">
