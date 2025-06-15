@@ -1,5 +1,6 @@
 // src/utils/imageGeneration.ts
 import OpenAI from 'openai';
+import { logPromptToDatabase } from './promptLogger';
 
 // Check if API key is available
 const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
@@ -101,9 +102,22 @@ export async function generateDesign(
   productColor: string,
   quality: 'low' | 'hd' = 'low'
 ): Promise<GenerationResult> {
+  const enhancedPrompt = enhancePrompt(prompt, style, productColor);
+  
   try {
     // Check if OpenAI is available
     if (!openai) {
+      // Log failed attempt
+      await logPromptToDatabase({
+        originalPrompt: prompt,
+        enhancedPrompt,
+        style,
+        productColor,
+        quality,
+        success: false,
+        errorMessage: 'AI image generation is currently unavailable'
+      });
+
       return {
         success: false,
         error: 'AI image generation is currently unavailable. Please join our waitlist to be notified when this feature is ready!'
@@ -111,13 +125,22 @@ export async function generateDesign(
     }
 
     if (!prompt?.trim()) {
+      await logPromptToDatabase({
+        originalPrompt: prompt,
+        enhancedPrompt,
+        style,
+        productColor,
+        quality,
+        success: false,
+        errorMessage: 'Empty prompt provided'
+      });
+
       return {
         success: false,
         error: 'Please provide a design prompt'
       };
     }
 
-    const enhancedPrompt = enhancePrompt(prompt, style, productColor);
     console.log('Enhanced prompt (DALL-E 3):', enhancedPrompt);
 
     const response = await openai.images.generate({
@@ -133,11 +156,33 @@ export async function generateDesign(
     const imageUrl = response.data[0]?.url;
 
     if (!imageUrl) {
+      await logPromptToDatabase({
+        originalPrompt: prompt,
+        enhancedPrompt,
+        style,
+        productColor,
+        quality,
+        success: false,
+        errorMessage: 'No image was generated'
+      });
+
       return {
         success: false,
         error: 'No image was generated'
       };
     }
+
+    // Log successful generation
+    await logPromptToDatabase({
+      originalPrompt: prompt,
+      enhancedPrompt,
+      revisedPrompt: response.data[0]?.revised_prompt,
+      style,
+      productColor,
+      quality,
+      success: true,
+      imageUrl
+    });
 
     return {
       success: true,
@@ -150,30 +195,30 @@ export async function generateDesign(
   } catch (error: any) {
     console.error('DALL-E 3 API Error:', error);
 
+    let errorMessage = 'AI image generation is currently unavailable';
+    
     if (error?.error?.code === 'content_policy_violation') {
-      return {
-        success: false,
-        error: 'Content policy violation. Please try a different prompt.'
-      };
+      errorMessage = 'Content policy violation. Please try a different prompt.';
+    } else if (error?.error?.code === 'rate_limit_exceeded') {
+      errorMessage = 'Rate limit exceeded. Please wait a moment and try again.';
+    } else if (error?.error?.code === 'insufficient_quota') {
+      errorMessage = 'API quota exceeded. Please check your OpenAI account.';
     }
 
-    if (error?.error?.code === 'rate_limit_exceeded') {
-      return {
-        success: false,
-        error: 'Rate limit exceeded. Please wait a moment and try again.'
-      };
-    }
-
-    if (error?.error?.code === 'insufficient_quota') {
-      return {
-        success: false,
-        error: 'API quota exceeded. Please check your OpenAI account.'
-      };
-    }
+    // Log failed generation
+    await logPromptToDatabase({
+      originalPrompt: prompt,
+      enhancedPrompt,
+      style,
+      productColor,
+      quality,
+      success: false,
+      errorMessage: error?.message || errorMessage
+    });
 
     return {
       success: false,
-      error: error?.message || 'AI image generation is currently unavailable. Please join our waitlist to be notified when this feature is ready!'
+      error: errorMessage
     };
   }
 }
