@@ -332,3 +332,10 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({ onGenerate, isGenerati
               </div>
             </div>
           )}
+
+
+        </form>
+      </div>
+    </div>
+  );
+};
