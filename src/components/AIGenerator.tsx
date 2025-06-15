@@ -332,17 +332,3 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({ onGenerate, isGenerati
               </div>
             </div>
           )}
-
-          {/* Quality explanation for testing */}
-          {isApiKeyAvailable && (
-            <div className="mt-4 text-center">
-              <p className="text-gray-500 text-sm font-source-sans">
-                <span className="font-semibold text-orange-600">Testing Mode:</span> You are using the BETA version. Please join our waiting list.
-              </p>
-            </div>
-          )}
-        </form>
-      </div>
-    </div>
-  );
-};
