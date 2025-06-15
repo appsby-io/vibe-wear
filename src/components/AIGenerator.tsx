@@ -327,7 +327,7 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({ onGenerate, isGenerati
             <div className="mt-4 flex items-center justify-center">
               <div className="inline-flex items-center px-4 py-2 bg-vibrant-pink/10 rounded-full">
                 <span className="text-vibrant-pink text-sm font-medium font-source-sans">
-                  Testing Mode • Standard Quality • {selectedStyle.charAt(0).toUpperCase() + selectedStyle.slice(1)} Style
+                  You are using the BETA version. Please join our wating list.
                 </span>
               </div>
             </div>
@@ -337,7 +337,7 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({ onGenerate, isGenerati
           {isApiKeyAvailable && (
             <div className="mt-4 text-center">
               <p className="text-gray-500 text-sm font-source-sans">
-                <span className="font-semibold text-orange-600">Testing Mode:</span> Using standard quality for faster generation and lower costs.
+                <span className="font-semibold text-orange-600">Testing Mode:</span> You are using the BETA version. Join our waiting list.
               </p>
             </div>
           )}
