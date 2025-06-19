@@ -108,11 +108,11 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
       {/* Desktop Layout - Same as mobile but not sticky */}
       <div className="hidden lg:block bg-white border-b border-gray-100 pt-8 pb-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <form onSubmit={handleSubmit} className="w-full lg:w-[640px] mx-auto">
+          <form onSubmit={handleSubmit}>
             {/* Text input area with buttons inside at bottom - same as mobile */}
-            <div className={`relative bg-white rounded-2xl border-2 transition-all ${
+            <div className={relative bg-white rounded-2xl border-2 transition-all ${
               currentError ? 'border-red-300' : 'border-black'
-            }`}>
+            }}>
               {/* Enhanced watermark text - only show when empty */}
               {!prompt && (
                 <div className="absolute top-3 left-4 text-gray-400 text-sm font-source-sans pointer-events-none">
@@ -186,11 +186,11 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
                 <button
                   type="submit"
                   disabled={isGenerating}
-                  className={`px-4 py-2 rounded-full font-semibold transition-all flex items-center space-x-2 relative overflow-hidden ${
+                  className={px-4 py-2 rounded-full font-semibold transition-all flex items-center space-x-2 relative overflow-hidden ${
                     !isGenerating
                       ? 'bg-vibrant-pink text-white hover:bg-pink-600 shadow-lg hover:shadow-xl transform hover:scale-105'
                       : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                  }`}
+                  }}
                 >
                   {isGenerating ? (
                     <>
@@ -263,11 +263,11 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
       {/* Mobile Layout - Sticky at bottom, above keyboard */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 shadow-lg">
         <div className="px-4 py-3">
-         <form onSubmit={handleSubmit} className="w-full lg:w-[640px] mx-auto">
+          <form onSubmit={handleSubmit}>
             {/* Text input area with buttons inside at bottom */}
-            <div className={`relative bg-white rounded-2xl border-2 transition-all ${
+            <div className={relative bg-white rounded-2xl border-2 transition-all ${
               currentError ? 'border-red-300' : 'border-black'
-            }`}>
+            }}>
               {/* Enhanced watermark text - only show when empty */}
               {!prompt && (
                 <div className="absolute top-3 left-4 text-gray-400 text-sm font-source-sans pointer-events-none">
@@ -304,7 +304,7 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
                     <button
                       type="button"
                       onClick={handleMicClick}
-                      className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-all relative overflow-hidden group"
+                      className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-all relative overflow-hidden group"
                       title="Voice input"
                     >
                       <Mic className="h-4 w-4 text-gray-600 group-hover:text-vibrant-pink transition-colors" />
@@ -341,11 +341,11 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
                 <button
                   type="submit"
                   disabled={isGenerating}
-                  className={`h-10 px-5 rounded-full font-semibold transition-all flex items-center space-x-1 relative overflow-hidden ${
+                  className={px-3 py-2 rounded-full font-semibold transition-all flex items-center space-x-1 relative overflow-hidden ${
                     !isGenerating
                       ? 'bg-vibrant-pink text-white hover:bg-pink-600 shadow-lg hover:shadow-xl transform hover:scale-105'
                       : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                  }`}
+                  }}
                 >
                   {isGenerating ? (
                     <>
