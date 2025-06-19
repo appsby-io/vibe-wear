@@ -147,8 +147,8 @@ export const ProductDisplay: React.FC<ProductDisplayProps> = ({
             <div 
               className="relative bg-white rounded-2xl overflow-hidden"
               style={{ 
-                width: window.innerWidth < 1024 ? '360px' : '480px', 
-                height: window.innerWidth < 1024 ? '432px' : '576px' 
+                width: auto
+                height: window.innerWidth < 1024 ? '340px' : '560px' 
               }}
             >
               {/* Product Base */}
