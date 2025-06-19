@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Eye, Maximize2, ExternalLink } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Eye, Search, ExternalLink } from 'lucide-react';
 import { DesignAnalysis } from './DesignAnalysis';
 import { ImageModal } from './ImageModal';
 import { LottieLoadingAnimation } from './LottieLoadingAnimation';
@@ -220,7 +220,7 @@ export const ProductDisplay: React.FC<ProductDisplayProps> = ({
                       className="w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-all border border-gray-200 group hover:scale-110 active:scale-95"
                       title="View larger"
                     >
-                      <Maximize2 className="h-5 w-5 text-gray-700 group-hover:text-vibrant-pink transition-colors" />
+                      <Search className="h-5 w-5 text-gray-700 group-hover:text-vibrant-pink transition-colors" />
                     </button>
                   </div>
                   

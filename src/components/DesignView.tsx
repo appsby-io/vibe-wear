@@ -37,12 +37,16 @@ export const DesignView: React.FC<DesignViewProps> = React.memo(({
   canGenerate,
 }) => {
   return (
-    <div className="lg:pt-16 pb-24 lg:pb-0">
-      <ProductConfiguration
-        config={productConfig}
-        onConfigChange={onConfigChange}
-        onAddToCart={onAddToCart}
-      />
+    <div className="lg:pt-16 pb-32 lg:pb-0">
+      {/* Desktop: Product config at top, sticky */}
+      {/* Mobile: Product config after product display, non-sticky */}
+      <div className="hidden lg:block">
+        <ProductConfiguration
+          config={productConfig}
+          onConfigChange={onConfigChange}
+          onAddToCart={onAddToCart}
+        />
+      </div>
       
       <ProductDisplay
         designs={designs}
@@ -55,6 +59,17 @@ export const DesignView: React.FC<DesignViewProps> = React.memo(({
         onImageViewLarge={onImageViewLarge}
       />
       
+      {/* Mobile: Product config after product display */}
+      <div className="lg:hidden">
+        <ProductConfiguration
+          config={productConfig}
+          onConfigChange={onConfigChange}
+          onAddToCart={onAddToCart}
+        />
+      </div>
+      
+      {/* Desktop: AI Generator non-sticky */}
+      {/* Mobile: AI Generator sticky at bottom */}
       <AIGenerator
         onGenerate={onGenerate}
         isGenerating={isGenerating}

@@ -156,12 +156,12 @@ export const ProductConfiguration: React.FC<ProductConfigurationProps> = ({
 
   return (
     <>
-      {/* Desktop Layout */}
+      {/* Desktop Layout - Sticky */}
       <div className="hidden lg:block bg-white border-b border-gray-100 lg:sticky lg:top-16 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-            {/* Mobile: 3 dropdowns in one row, Desktop: all dropdowns in a row */}
-            <div className="grid grid-cols-3 sm:flex sm:flex-wrap gap-2 sm:gap-4 items-center">
+            {/* Desktop: all dropdowns in a row */}
+            <div className="flex flex-wrap gap-4 items-center">
               <Dropdown
                 label="Product"
                 value={config.product}
@@ -190,18 +190,16 @@ export const ProductConfiguration: React.FC<ProductConfigurationProps> = ({
                 hideLabel={true}
               />
               
-              {/* Amount dropdown - hidden on mobile */}
               <Dropdown
                 label="Amount"
                 value={config.amount}
                 options={amounts}
                 onSelect={(value) => handleOptionSelect('amount', value)}
                 dropdownKey="amount"
-                isMobileHidden={true}
               />
             </div>
             
-            {/* Price and Add to Cart - Right aligned on mobile */}
+            {/* Price and Add to Cart - Right aligned */}
             <div className="flex items-center justify-end gap-4">
               <span className="text-3xl font-bold text-black font-source-sans">
                 ${totalPrice}
@@ -218,9 +216,9 @@ export const ProductConfiguration: React.FC<ProductConfigurationProps> = ({
         </div>
       </div>
 
-      {/* Mobile Sticky Bottom Layout */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 shadow-lg">
-        <div className="px-4 py-3">
+      {/* Mobile Layout - Non-sticky, positioned below product display */}
+      <div className="lg:hidden bg-white border-b border-gray-100 py-4">
+        <div className="px-4">
           {/* Top row: 3 dropdowns */}
           <div className="grid grid-cols-3 gap-2 mb-3">
             <Dropdown
@@ -259,10 +257,10 @@ export const ProductConfiguration: React.FC<ProductConfigurationProps> = ({
             </span>
             <button 
               onClick={onAddToCart}
-              className="flex items-center gap-2 px-3 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition-colors font-source-sans font-semibold"
+              className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition-colors font-source-sans font-semibold"
             >
-              <ShoppingCart className="h-3 w-3" />
-              <span className="text-xs">Add to Cart</span>
+              <ShoppingCart className="h-4 w-4" />
+              <span className="text-sm">Add to Cart</span>
             </button>
           </div>
         </div>
