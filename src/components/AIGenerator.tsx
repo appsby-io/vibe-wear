@@ -304,7 +304,7 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
                     <button
                       type="button"
                       onClick={handleMicClick}
-                      className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-all relative overflow-hidden group"
+                      className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-all relative overflow-hidden group"
                       title="Voice input"
                     >
                       <Mic className="h-4 w-4 text-gray-600 group-hover:text-vibrant-pink transition-colors" />
