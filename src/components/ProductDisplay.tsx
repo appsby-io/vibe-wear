@@ -178,8 +178,8 @@ export const ProductDisplay: React.FC<ProductDisplayProps> = ({
                     alt={currentDesign.name}
                     className="object-contain hover:scale-105 transition-transform"
                     style={{ 
-                      width: window.innerWidth < 1024 ? '120px' : '160px', 
-                      height: window.innerWidth < 1024 ? '120px' : '160px' 
+                      height: window.innerWidth < 1024 ? '120px' : '160px', 
+                      width: 'auto'
                     }}
                     draggable={false}
                     onContextMenu={(e) => e.preventDefault()} // Prevent right-click context menu
