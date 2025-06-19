@@ -341,7 +341,7 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
                 <button
                   type="submit"
                   disabled={isGenerating}
-                  className={`px-3 py-2 rounded-full font-semibold transition-all flex items-center space-x-1 relative overflow-hidden ${
+                  className={`h-10 px-5 rounded-full font-semibold transition-all flex items-center space-x-1 relative overflow-hidden ${
                     !isGenerating
                       ? 'bg-vibrant-pink text-white hover:bg-pink-600 shadow-lg hover:shadow-xl transform hover:scale-105'
                       : 'bg-gray-200 text-gray-400 cursor-not-allowed'
