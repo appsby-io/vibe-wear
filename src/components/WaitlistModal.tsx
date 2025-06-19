@@ -86,12 +86,7 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({
         ga.trackSurveyOpen();
       }
 
-      // Auto-close after 3 seconds
-      setTimeout(() => {
-        onClose();
-        setIsSuccess(false);
-        setEmail('');
-      }, 3000);
+      // Don't auto-close - stay on success screen
 
     } catch (err: any) {
       setError(err.message || 'Failed to join waitlist. Please try again.');
@@ -166,14 +161,14 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({
                       Thanks for joining our waitlist. We'll notify you as soon as VIBE-WEAR launches!
                     </p>
 
-                    {/* Survey Section with light pink background */}
-                    <div className="bg-pink-50 border border-pink-200 rounded-lg p-4">
-                      <p className="text-pink-800 font-source-sans mb-3">
-                        👉 Got 20 seconds? Help us build something better.
+                    {/* Survey Section with same styling as waitlist section */}
+                    <div className="pt-6 mt-6 border-t border-gray-200">
+                      <p className="text-gray-800 font-source-sans mb-3">
+                        👉 Got 20 seconds? Help me build something better.
                       </p>
                       <button
                         onClick={handleSurveyClick}
-                        className="bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-lg font-medium font-source-sans transition-colors"
+                        className="border border-vibrant-pink text-vibrant-pink hover:bg-vibrant-pink hover:text-white px-4 py-2 rounded-lg font-medium font-source-sans transition-colors"
                       >
                         Share your ideas
                       </button>
