@@ -76,6 +76,11 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
     if (validationError) {
       setValidationError(null);
     }
+    
+    // Auto-resize textarea on desktop
+    const target = e.target;
+    target.style.height = 'auto';
+    target.style.height = target.scrollHeight + 'px';
   };
 
   const handleTooltipClick = (buttonType: string) => {
@@ -110,18 +115,12 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <form onSubmit={handleSubmit} className="max-w-4xl mx-auto">
             <div className="relative">
-              <div className={`relative items-center bg-white rounded-2xl border-2 transition-all ${
+              <div className={`relative bg-white rounded-2xl border-2 transition-all ${
                 currentError ? 'border-red-300' : 'border-black'
-              }`} className="relative items-center bg-white rounded-2xl border-2 transition-all pb-20 pt-12 px-4">
-                {/* Enhanced watermark text */}
-                {!prompt && (
-                  <div className="absolute top-4 left-4 text-gray-400 text-sm font-source-sans pointer-events-none">
-                    Try: "Majestic lion wearing a crown with golden mane" or "Cute panda eating ramen noodles"
-                  </div>
-                )}
+              } min-h-[60px] flex items-center`}>
                 
-                {/* Left side icons with enhanced hover effects */}
-                <div className="absolute left-4 bottom-4 flex space-x-2">
+                {/* Left side icons */}
+                <div className="absolute left-4 flex space-x-2 z-10">
                   <div className="relative">
                     <button
                       type="button"
@@ -159,46 +158,53 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
                   </div>
                 </div>
 
-                {/* Enhanced text input */}
+                {/* Text input - auto-sizing */}
                 <textarea
                   value={prompt}
                   onChange={handlePromptChange}
-                  placeholder=""
-                  className="flex-1 px-4 pt-12 pb-12 bg-transparent text-lg placeholder-gray-500 focus:outline-none resize-none font-source-sans w-full pr-32"
+                  placeholder={!prompt ? 'Try: "Majestic lion wearing a crown with golden mane" or "Cute panda eating ramen noodles"' : ''}
+                  className="flex-1 pl-28 pr-40 py-4 bg-transparent text-lg placeholder-gray-400 focus:outline-none resize-none font-source-sans w-full overflow-hidden"
                   disabled={isGenerating}
-                  rows={3}
+                  rows={1}
                   maxLength={1000}
+                  style={{
+                    minHeight: '60px',
+                    height: 'auto',
+                  }}
                 />
 
-                {/* Character counter - moved to bottom right corner */}
-                <div className="absolute bottom-4 right-32 text-xs text-gray-400 font-source-sans">
-                  {prompt.length}/1000
-                </div>
+                {/* Right side: Character counter and Generate button */}
+                <div className="absolute right-4 flex items-center space-x-4">
+                  {/* Character counter */}
+                  <div className="text-xs text-gray-400 font-source-sans">
+                    {prompt.length}/1000
+                  </div>
 
-                {/* Enhanced generate button - inside input field */}
-                <button
-                  type="submit"
-                  disabled={isGenerating}
-                  className={`absolute right-4 bottom-4 px-6 py-3 rounded-full font-semibold transition-all flex items-center space-x-2 relative overflow-hidden ${
-                    !isGenerating
-                      ? 'bg-vibrant-pink text-white hover:bg-pink-600 shadow-lg hover:shadow-xl transform hover:scale-105'
-                      : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                  }`}
-                >
-                  {isGenerating ? (
-                    <>
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      <span className="font-source-sans">Creating...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="h-4 w-4" />
-                      <span className="font-source-sans">
-                        {canGenerate ? 'Generate Design' : 'Join Waitlist'}
-                      </span>
-                    </>
-                  )}
-                </button>
+                  {/* Generate button */}
+                  <button
+                    type="submit"
+                    disabled={isGenerating}
+                    className={`px-6 py-3 rounded-full font-semibold transition-all flex items-center space-x-2 relative overflow-hidden ${
+                      !isGenerating
+                        ? 'bg-vibrant-pink text-white hover:bg-pink-600 shadow-lg hover:shadow-xl transform hover:scale-105'
+                        : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    }`}
+                  >
+                    {isGenerating ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        <span className="font-source-sans">Creating...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="h-4 w-4" />
+                        <span className="font-source-sans">
+                          {canGenerate ? 'Generate Design' : 'Join Waitlist'}
+                        </span>
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
             
