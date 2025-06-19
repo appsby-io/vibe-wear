@@ -107,7 +107,7 @@ export const ProductDisplay: React.FC<ProductDisplayProps> = ({
   const isInteractiveDesign = currentDesign && currentDesign.id !== 'default';
 
   return (
-    <div className="relative bg-white pt-2 lg:pt-12 pb-2 lg:pb-4">
+    <div className="relative bg-white pt-2 lg:pt-2 pb-2 lg:pb-4">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         
         {/* Bolt Badge - Positioned at top left corner of content area */}
