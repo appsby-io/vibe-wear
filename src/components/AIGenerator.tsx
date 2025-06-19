@@ -108,7 +108,7 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
       {/* Desktop Layout - Same as mobile but not sticky */}
       <div className="hidden lg:block bg-white border-b border-gray-100 pt-8 pb-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="w-full lg:w-[640px] mx-auto">
             {/* Text input area with buttons inside at bottom - same as mobile */}
             <div className={`relative bg-white rounded-2xl border-2 transition-all ${
               currentError ? 'border-red-300' : 'border-black'
@@ -263,7 +263,7 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
       {/* Mobile Layout - Sticky at bottom, above keyboard */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 shadow-lg">
         <div className="px-4 py-3">
-          <form onSubmit={handleSubmit}>
+         <form onSubmit={handleSubmit} className="w-full lg:w-[640px] mx-auto">
             {/* Text input area with buttons inside at bottom */}
             <div className={`relative bg-white rounded-2xl border-2 transition-all ${
               currentError ? 'border-red-300' : 'border-black'
