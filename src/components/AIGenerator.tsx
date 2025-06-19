@@ -167,7 +167,7 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
                     <button
                       type="button"
                       onClick={handleImageClick}
-                      className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-all relative overflow-hidden group"
+                      className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-all relative overflow-hidden group"
                       title="Upload reference image"
                     >
                       <Image className="h-4 w-4 text-gray-600 group-hover:text-vibrant-pink transition-colors" />
