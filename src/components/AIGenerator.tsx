@@ -204,7 +204,7 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
               {/* Text input area with buttons inside at bottom */}
               <div className={`relative bg-white rounded-2xl border-2 transition-all ${
                 currentError ? 'border-red-300' : 'border-black'
-              }`} style={{ minHeight: '80px' }}>
+              }`} style={{ minHeight: '200px' }}>
                 {/* Enhanced watermark text */}
                 {!prompt && (
                   <div className="absolute top-3 left-4 text-gray-400 text-sm font-source-sans pointer-events-none">
