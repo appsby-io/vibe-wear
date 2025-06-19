@@ -149,24 +149,6 @@ export const WaitlistSection: React.FC = () => {
             We're not quite ready to ship — but you're first in line if you join the waitlist.
           </p>
 
-          {/* Benefits Section - Moved before email input */}
-          <div className="mb-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-              <div className="flex items-center justify-center space-x-3">
-                <CheckIcon className="w-5 h-5 text-green-500 flex-shrink-0" />
-                <span className="text-gray-700 font-source-sans">Early access to new features</span>
-              </div>
-              <div className="flex items-center justify-center space-x-3">
-                <CheckIcon className="w-5 h-5 text-green-500 flex-shrink-0" />
-                <span className="text-gray-700 font-source-sans">Exclusive beta pricing</span>
-              </div>
-              <div className="flex items-center justify-center space-x-3">
-                <CheckIcon className="w-5 h-5 text-green-500 flex-shrink-0" />
-                <span className="text-gray-700 font-source-sans">Priority customer support</span>
-              </div>
-            </div>
-          </div>
-
           {/* Email Input Section */}
           <form onSubmit={handleSubmit} className="max-w-md mx-auto mb-6">
             <div className="flex flex-col sm:flex-row gap-3">
