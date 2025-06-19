@@ -24,10 +24,10 @@ export const ImageModal: React.FC<ImageModalProps> = ({
 
   return (
     <div 
-      className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[60] p-4"
       onClick={handleBackdropClick}
     >
-      <div className="relative bg-white rounded-2xl max-w-4xl max-h-[90vh] overflow-hidden">
+      <div className="relative bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
           <h3 className="text-lg font-semibold text-gray-900 font-source-sans truncate">
@@ -44,14 +44,19 @@ export const ImageModal: React.FC<ImageModalProps> = ({
           </div>
         </div>
 
-        {/* Image Container */}
+        {/* Image Container - Fixed sizing to prevent cutoff */}
         <div className="p-6 flex items-center justify-center bg-gray-50">
-          <div className="relative max-w-full max-h-[70vh] overflow-hidden rounded-lg">
+          <div className="relative w-full h-full flex items-center justify-center">
             <img
               src={imageUrl}
               alt={designName}
-              className="max-w-full max-h-full object-contain"
-              style={{ maxWidth: '800px', maxHeight: '600px' }}
+              className="max-w-full max-h-full object-contain rounded-lg"
+              style={{ 
+                maxWidth: '100%', 
+                maxHeight: 'calc(90vh - 200px)', // Account for header and footer
+                width: 'auto',
+                height: 'auto'
+              }}
               onContextMenu={(e) => e.preventDefault()} // Prevent right-click context menu
               draggable={false} // Prevent dragging
             />

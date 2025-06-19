@@ -156,9 +156,9 @@ export const ProductConfiguration: React.FC<ProductConfigurationProps> = ({
 
   return (
     <>
-      {/* Desktop Layout - Sticky */}
-      <div className="hidden lg:block bg-white border-b border-gray-100 lg:sticky lg:top-16 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      {/* Desktop Layout - Below header, non-sticky */}
+      <div className="hidden lg:block bg-white border-b border-gray-100 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             {/* Desktop: all dropdowns in a row */}
             <div className="flex flex-wrap gap-4 items-center">
@@ -216,7 +216,7 @@ export const ProductConfiguration: React.FC<ProductConfigurationProps> = ({
         </div>
       </div>
 
-      {/* Mobile Layout - Non-sticky, positioned below product display */}
+      {/* Mobile Layout - Below header, non-sticky */}
       <div className="lg:hidden bg-white border-b border-gray-100 py-4">
         <div className="px-4">
           {/* Top row: 3 dropdowns */}

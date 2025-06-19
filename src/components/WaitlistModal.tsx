@@ -77,7 +77,21 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({
 
       await response.json();
       setIsSuccess(true);
-      ga.trackSignUp('waitlist_modal');
+      ga.trackSignUp('beta_modal');
+
+      // Open Google Form in new tab
+      const googleFormUrl = import.meta.env.VITE_GOOGLE_FORM_URL;
+      if (googleFormUrl) {
+        window.open(googleFormUrl, '_blank');
+        ga.trackSurveyOpen();
+      }
+
+      // Auto-close after 3 seconds
+      setTimeout(() => {
+        onClose();
+        setIsSuccess(false);
+        setEmail('');
+      }, 3000);
 
     } catch (err: any) {
       setError(err.message || 'Failed to join waitlist. Please try again.');
@@ -96,7 +110,7 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={handleClose}>
+      <Dialog as="div" className="relative z-[60]" onClose={() => {}}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
