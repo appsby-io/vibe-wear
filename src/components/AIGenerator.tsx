@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Sparkles, Mic, Image, AlertCircle } from 'lucide-react';
 import { validatePrompt } from '../utils/imageGeneration';
 import { ImageUpload } from './ImageUpload';
@@ -25,6 +25,26 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
   const [showTooltip, setShowTooltip] = useState<string | null>(null);
   const [showImageUpload, setShowImageUpload] = useState(false);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // Auto-resize textarea function
+  const adjustTextareaHeight = () => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = 'auto';
+      const scrollHeight = textarea.scrollHeight;
+      const minHeight = 48; // Single line height
+      const maxHeight = 120; // About 3 lines
+      const newHeight = Math.min(Math.max(scrollHeight, minHeight), maxHeight);
+      textarea.style.height = newHeight + 'px';
+    }
+  };
+
+  // Adjust height when prompt changes
+  useEffect(() => {
+    adjustTextareaHeight();
+  }, [prompt]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -115,29 +135,25 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
             }`}>
               {/* Enhanced watermark text - only show when empty */}
               {!prompt && (
-                <div className="absolute top-3 left-4 text-gray-400 text-sm font-source-sans pointer-events-none">
+                <div className="absolute top-4 left-4 text-gray-400 text-sm font-source-sans pointer-events-none z-10">
                   Try: "Majestic lion wearing a crown with golden mane"
                 </div>
               )}
               
-              {/* Enhanced text input - auto-sizing */}
+              {/* Enhanced text input - auto-sizing with proper padding */}
               <textarea
+                ref={textareaRef}
                 value={prompt}
                 onChange={handlePromptChange}
                 placeholder=""
-                className="w-full px-4 pt-3 pb-12 bg-transparent text-base placeholder-gray-500 focus:outline-none resize-none font-source-sans"
+                className="w-full px-4 pt-4 pb-16 bg-transparent text-base placeholder-gray-500 focus:outline-none resize-none font-source-sans leading-relaxed"
                 disabled={isGenerating}
                 rows={1}
                 maxLength={1000}
                 style={{
-                  minHeight: '48px',
-                  maxHeight: '96px', // 2 lines max
-                  overflowY: prompt.split('\n').length > 2 || prompt.length > 80 ? 'auto' : 'hidden'
-                }}
-                onInput={(e) => {
-                  const target = e.target as HTMLTextAreaElement;
-                  target.style.height = 'auto';
-                  target.style.height = Math.min(target.scrollHeight, 96) + 'px';
+                  minHeight: '64px', // Increased to accommodate bottom buttons
+                  maxHeight: '136px', // Increased for better text flow
+                  overflowY: 'auto'
                 }}
               />
 
@@ -263,7 +279,7 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
       {/* Mobile Layout - Sticky at bottom, above keyboard */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 shadow-lg">
         <div className="px-4 py-3">
-         <form onSubmit={handleSubmit} className="w-full lg:w-[640px] mx-auto">
+          <form onSubmit={handleSubmit}>
             {/* Text input area with buttons inside at bottom */}
             <div className={`relative bg-white rounded-2xl border-2 transition-all ${
               currentError ? 'border-red-300' : 'border-black'
@@ -304,7 +320,7 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
                     <button
                       type="button"
                       onClick={handleMicClick}
-                      className="w-8 h-8 lg:w-10 lg:h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-all relative overflow-hidden group"
+                      className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-all relative overflow-hidden group"
                       title="Voice input"
                     >
                       <Mic className="h-4 w-4 text-gray-600 group-hover:text-vibrant-pink transition-colors" />
@@ -322,7 +338,7 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
                     <button
                       type="button"
                       onClick={handleImageClick}
-                      className="w-8 h-8 lg:w-10 lg:h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-all relative overflow-hidden group"
+                      className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-all relative overflow-hidden group"
                       title="Upload reference image"
                     >
                       <Image className="h-4 w-4 text-gray-600 group-hover:text-vibrant-pink transition-colors" />
@@ -341,7 +357,7 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
                 <button
                   type="submit"
                   disabled={isGenerating}
-                  className={`h-10 px-5 rounded-full font-semibold transition-all flex items-center space-x-1 relative overflow-hidden ${
+                  className={`px-3 py-2 rounded-full font-semibold transition-all flex items-center space-x-1 relative overflow-hidden ${
                     !isGenerating
                       ? 'bg-vibrant-pink text-white hover:bg-pink-600 shadow-lg hover:shadow-xl transform hover:scale-105'
                       : 'bg-gray-200 text-gray-400 cursor-not-allowed'
