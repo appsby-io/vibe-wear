@@ -255,8 +255,8 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
                     You've reached the 3 design limit for the beta. Join our waitlist to get early access when we launch!
                   </p>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
 
             {/* Quality indicator with beta notice */}
             {selectedStyle && isApiKeyAvailable && canGenerate && (
