@@ -76,11 +76,8 @@ export const WaitlistSection: React.FC = () => {
   };
 
   const handleSurveyClick = () => {
-    const googleFormUrl = import.meta.env.VITE_GOOGLE_FORM_URL;
-    if (googleFormUrl) {
-      window.open(googleFormUrl, '_blank');
-      ga.trackSurveyOpen();
-    }
+    window.open('https://forms.gle/NmbwymLmcKV2w1bz8', '_blank');
+    ga.trackSurveyOpen();
   };
 
   if (isSuccess) {
@@ -105,20 +102,20 @@ export const WaitlistSection: React.FC = () => {
               Thanks for joining our beta waitlist. We'll notify you as soon as VIBE-WEAR launches!
             </p>
             
-            {/* Survey Section with light pink background */}
-            <div className="bg-pink-50 border border-pink-200 rounded-lg p-6 mb-6">
-              <p className="text-pink-800 font-source-sans mb-3">
-                👉 Got 20 seconds? Help us build something better.
+            {/* Survey Section with same styling as waitlist section */}
+            <div className="pt-6 mt-6 border-t border-gray-200">
+              <p className="text-gray-800 font-source-sans mb-3">
+                👉 Got 20 seconds? Help me build something better.
               </p>
               <button
                 onClick={handleSurveyClick}
-                className="border border-pink-600 text-pink-600 hover:bg-pink-600 hover:text-white px-6 py-3 rounded-lg font-medium font-source-sans transition-colors"
+                className="border border-vibrant-pink text-vibrant-pink hover:bg-vibrant-pink hover:text-white px-6 py-3 rounded-lg font-medium font-source-sans transition-colors"
               >
                 Share your ideas
               </button>
             </div>
             
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4 mt-6">
               <p className="text-sm text-green-800 font-source-sans">
                 Keep an eye on your inbox for exclusive early access and special perks.
               </p>
@@ -190,14 +187,14 @@ export const WaitlistSection: React.FC = () => {
             )}
           </form>
 
-          {/* Survey Section with light pink background */}
+          {/* Survey Section with same styling as waitlist section */}
           <div className="pt-6 mt-6 border-t border-gray-200">
-            <p className="text-grey-800 font-source-sans mb-2">
+            <p className="text-gray-800 font-source-sans mb-2">
               👉 Got 20 seconds? Help me build something better.
             </p>
             <button
               onClick={handleSurveyClick}
-              className="border border-pink-600 text-pink-600 hover:bg-pink-600 hover:text-white px-4 py-2 rounded-lg font-medium font-source-sans transition-colors"
+              className="border border-vibrant-pink text-vibrant-pink hover:bg-vibrant-pink hover:text-white px-4 py-2 rounded-lg font-medium font-source-sans transition-colors"
             >
               Share your ideas
             </button>

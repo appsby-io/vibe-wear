@@ -79,12 +79,9 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({
       setIsSuccess(true);
       ga.trackSignUp('beta_modal');
 
-      // Open Google Form in new tab
-      const googleFormUrl = import.meta.env.VITE_GOOGLE_FORM_URL;
-      if (googleFormUrl) {
-        window.open(googleFormUrl, '_blank');
-        ga.trackSurveyOpen();
-      }
+      // Open Google Form in new tab with the provided URL
+      window.open('https://forms.gle/NmbwymLmcKV2w1bz8', '_blank');
+      ga.trackSurveyOpen();
 
       // Don't auto-close - stay on success screen
 
@@ -96,11 +93,8 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({
   };
 
   const handleSurveyClick = () => {
-    const googleFormUrl = import.meta.env.VITE_GOOGLE_FORM_URL;
-    if (googleFormUrl) {
-      window.open(googleFormUrl, '_blank');
-      ga.trackSurveyOpen();
-    }
+    window.open('https://forms.gle/NmbwymLmcKV2w1bz8', '_blank');
+    ga.trackSurveyOpen();
   };
 
   return (
