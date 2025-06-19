@@ -146,8 +146,7 @@ export const WaitlistSection: React.FC = () => {
           </h2>
           
           <p className="text-base text-gray-600 mb-6 font-source-sans max-w-2xl mx-auto">
-            We're still working on the future of AI-powered custom clothing. Join our exclusive waitlist 
-            to get early access, special pricing, and be the first to experience the full VIBE-WEAR platform.
+            We're not quite ready to ship — but you're first in line if you join the waitlist.
           </p>
 
           {/* Benefits Section - Moved before email input */}
