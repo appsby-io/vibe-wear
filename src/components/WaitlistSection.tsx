@@ -211,7 +211,7 @@ export const WaitlistSection: React.FC = () => {
           {/* Survey Section with light pink background */}
           <div className="pt-6 mt-6 border-t border-gray-200">
             <p className="text-grey-800 font-source-sans mb-2">
-              👉 Got 20 seconds? Help us build something better.
+              👉 Got 20 seconds? Help me build something better.
             </p>
             <button
               onClick={handleSurveyClick}
