@@ -107,9 +107,9 @@ export const ProductConfiguration: React.FC<ProductConfigurationProps> = ({
         </div>
       )}
 
-      {/* Mobile Bottom Sheet */}
+      {/* Mobile Bottom Sheet - Higher z-index to appear above sticky input */}
       {openDropdown === dropdownKey && (
-        <div className="lg:hidden fixed inset-0 z-50 flex items-end">
+        <div className="lg:hidden fixed inset-0 z-[60] flex items-end">
           {/* Backdrop */}
           <div 
             className="absolute inset-0 bg-black bg-opacity-50"
