@@ -21,7 +21,7 @@ export const ProductConfiguration: React.FC<ProductConfigurationProps> = ({
 }) => {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
-  const products = ['Premium Cotton Tee', 'Premium Cotton Sweatshirt', 'Premium Lightweight Hoodie'];
+  const products = ['T-Shirt', 'Sweatshirt', 'Hoodie'];
   const colors = ['White', 'Black'];
   const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
   const amounts = Array.from({ length: 20 }, (_, i) => i + 1);
