@@ -112,7 +112,7 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
             <div className="relative">
               <div className={`relative items-center bg-white rounded-2xl border-2 transition-all ${
                 currentError ? 'border-red-300' : 'border-black'
-              }`} style={{ height: '140px' }}>
+              }`} style={{ height: '160px' }}>
                 {/* Enhanced watermark text */}
                 {!prompt && (
                   <div className="absolute top-4 left-4 text-gray-400 text-sm font-source-sans pointer-events-none">
