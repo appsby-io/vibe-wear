@@ -219,7 +219,7 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
                   placeholder=""
                   className="w-full px-4 pt-8 pb-16 bg-transparent text-base placeholder-gray-500 focus:outline-none resize-none font-source-sans"
                   disabled={isGenerating || !canGenerate}
-                  rows={2}
+                  rows={1}
                   maxLength={1000}
                 />
 
