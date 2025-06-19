@@ -147,7 +147,7 @@ export const ProductDisplay: React.FC<ProductDisplayProps> = ({
             <div 
               className="relative bg-white rounded-2xl overflow-hidden"
               style={{ 
-                width: auto
+                width: 'auto',
                 height: window.innerWidth < 1024 ? '340px' : '560px' 
               }}
             >
