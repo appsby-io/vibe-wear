@@ -230,6 +230,10 @@ function App() {
     ga.trackImageViewLarge();
   };
 
+  const handleShowWaitlistModal = () => {
+    setShowWaitlistModal(true);
+  };
+
   // Common header props
   const headerProps = {
     cartCount: getCartCount(),
@@ -334,6 +338,7 @@ function App() {
         onStyleSelect={handleStyleSelect}
         onImageViewLarge={handleImageViewLarge}
         canGenerate={canGenerate()}
+        onShowWaitlistModal={handleShowWaitlistModal}
       />
 
       {/* Waitlist Section - Only show on design view */}

@@ -112,7 +112,7 @@ export const WaitlistSection: React.FC = () => {
               </p>
               <button
                 onClick={handleSurveyClick}
-                className="bg-pink-600 hover:bg-pink-700 text-white px-6 py-3 rounded-lg font-medium font-source-sans transition-colors"
+                className="border border-pink-600 text-pink-600 hover:bg-pink-600 hover:text-white px-6 py-3 rounded-lg font-medium font-source-sans transition-colors"
               >
                 Share your ideas
               </button>
@@ -145,13 +145,31 @@ export const WaitlistSection: React.FC = () => {
             Join Our Waiting List
           </h2>
           
-          <p className="text-lg text-gray-600 mb-8 font-source-sans max-w-2xl mx-auto">
+          <p className="text-base text-gray-600 mb-6 font-source-sans max-w-2xl mx-auto">
             We're still working on the future of AI-powered custom clothing. Join our exclusive waitlist 
             to get early access, special pricing, and be the first to experience the full VIBE-WEAR platform.
           </p>
 
-          {/* Email Input Section - Moved before benefits */}
-          <form onSubmit={handleSubmit} className="max-w-md mx-auto mb-8">
+          {/* Benefits Section - Moved before email input */}
+          <div className="mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+              <div className="flex items-center justify-center space-x-3">
+                <CheckIcon className="w-5 h-5 text-green-500 flex-shrink-0" />
+                <span className="text-gray-700 font-source-sans">Early access to new features</span>
+              </div>
+              <div className="flex items-center justify-center space-x-3">
+                <CheckIcon className="w-5 h-5 text-green-500 flex-shrink-0" />
+                <span className="text-gray-700 font-source-sans">Exclusive beta pricing</span>
+              </div>
+              <div className="flex items-center justify-center space-x-3">
+                <CheckIcon className="w-5 h-5 text-green-500 flex-shrink-0" />
+                <span className="text-gray-700 font-source-sans">Priority customer support</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Email Input Section */}
+          <form onSubmit={handleSubmit} className="max-w-md mx-auto mb-6">
             <div className="flex flex-col sm:flex-row gap-3">
               <input
                 type="email"
@@ -161,21 +179,28 @@ export const WaitlistSection: React.FC = () => {
                 className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vibrant-pink focus:border-vibrant-pink transition-colors font-source-sans"
                 disabled={isSubmitting}
               />
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="px-6 py-3 bg-vibrant-pink text-white rounded-lg hover:bg-pink-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-source-sans font-semibold whitespace-nowrap"
-              >
-                {isSubmitting ? (
-                  <div className="flex items-center space-x-2">
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    <span>Joining...</span>
-                  </div>
-                ) : (
-                  'Join Waitlist'
-                )}
-              </button>
             </div>
+            
+            {/* Privacy text directly below email input */}
+            <p className="text-xs text-gray-500 mt-2 font-source-sans">
+              We respect your privacy. No spam, just updates on our launch.
+            </p>
+            
+            {/* Join Waitlist button centered below privacy text */}
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="mt-4 px-6 py-3 bg-vibrant-pink text-white rounded-lg hover:bg-pink-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-source-sans font-semibold whitespace-nowrap"
+            >
+              {isSubmitting ? (
+                <div className="flex items-center space-x-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <span>Joining...</span>
+                </div>
+              ) : (
+                'Join Waitlist'
+              )}
+            </button>
             
             {error && (
               <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
@@ -185,42 +210,17 @@ export const WaitlistSection: React.FC = () => {
           </form>
 
           {/* Survey Section with light pink background */}
-          <div className="bg-pink-50 border border-pink-200 rounded-lg p-4 mb-6">
+          <div className="bg-pink-50 border border-pink-200 rounded-lg p-4">
             <p className="text-pink-800 font-source-sans mb-2">
               👉 Got 20 seconds? Help us build something better.
             </p>
             <button
               onClick={handleSurveyClick}
-              className="bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-lg font-medium font-source-sans transition-colors"
+              className="border border-pink-600 text-pink-600 hover:bg-pink-600 hover:text-white px-4 py-2 rounded-lg font-medium font-source-sans transition-colors"
             >
               Share your ideas
             </button>
           </div>
-
-          {/* Benefits Section - Moved after email input */}
-          <div className="bg-gray-50 rounded-xl p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 font-source-sans">
-              What you'll get as an early member:
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-              <div className="flex items-center space-x-3">
-                <CheckIcon className="w-5 h-5 text-green-500 flex-shrink-0" />
-                <span className="text-gray-700 font-source-sans">Early access to new features</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <CheckIcon className="w-5 h-5 text-green-500 flex-shrink-0" />
-                <span className="text-gray-700 font-source-sans">Exclusive beta pricing</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <CheckIcon className="w-5 h-5 text-green-500 flex-shrink-0" />
-                <span className="text-gray-700 font-source-sans">Priority customer support</span>
-              </div>
-            </div>
-          </div>
-
-          <p className="text-xs text-gray-500 mt-4 font-source-sans">
-            We respect your privacy. No spam, just updates on our launch.
-          </p>
         </div>
       </div>
     </section>

@@ -19,6 +19,7 @@ interface DesignViewProps {
   onStyleSelect: (styleId: string) => void;
   onImageViewLarge?: () => void;
   canGenerate: boolean;
+  onShowWaitlistModal?: () => void;
 }
 
 export const DesignView: React.FC<DesignViewProps> = React.memo(({
@@ -35,6 +36,7 @@ export const DesignView: React.FC<DesignViewProps> = React.memo(({
   onStyleSelect,
   onImageViewLarge,
   canGenerate,
+  onShowWaitlistModal,
 }) => {
   return (
     <div className="lg:pt-16 pb-32 lg:pb-0">
@@ -75,6 +77,7 @@ export const DesignView: React.FC<DesignViewProps> = React.memo(({
         isGenerating={isGenerating}
         selectedStyle={selectedStyle}
         canGenerate={canGenerate}
+        onShowWaitlistModal={onShowWaitlistModal}
       />
       
       <StyleSelection

@@ -9,13 +9,15 @@ interface AIGeneratorProps {
   isGenerating: boolean;
   selectedStyle?: string | null;
   canGenerate: boolean;
+  onShowWaitlistModal?: () => void;
 }
 
 export const AIGenerator: React.FC<AIGeneratorProps> = ({ 
   onGenerate, 
   isGenerating, 
   selectedStyle, 
-  canGenerate 
+  canGenerate,
+  onShowWaitlistModal
 }) => {
   const [prompt, setPrompt] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -31,7 +33,9 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
     
     // Check if user can generate
     if (!canGenerate) {
-      setValidationError('You have reached the generation limit. Please join our waitlist to continue.');
+      if (onShowWaitlistModal) {
+        onShowWaitlistModal();
+      }
       return;
     }
     
@@ -86,7 +90,8 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
 
   const handleImageClick = () => {
     ga.trackFeatureClick('image_upload');
-    setShowImageUpload(!showImageUpload);
+    setShowTooltip('image_upload');
+    setTimeout(() => setShowTooltip(null), 2000);
   };
 
   const handleImageSelect = (file: File | null) => {
@@ -139,22 +144,18 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
                     <button
                       type="button"
                       onClick={handleImageClick}
-                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all relative overflow-hidden group ${
-                        showImageUpload || selectedImage
-                          ? 'bg-vibrant-pink text-white'
-                          : 'bg-gray-100 hover:bg-gray-200'
-                      }`}
-                      title="Upload reference image (Coming soon)"
+                      className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-all relative overflow-hidden group"
+                      title="Upload reference image"
                     >
-                      <Image className={`h-5 w-5 transition-colors ${
-                        showImageUpload || selectedImage
-                          ? 'text-white'
-                          : 'text-gray-600 group-hover:text-vibrant-pink'
-                      }`} />
-                      {!showImageUpload && !selectedImage && (
-                        <div className="absolute inset-0 bg-vibrant-pink opacity-0 group-hover:opacity-10 rounded-full transition-opacity"></div>
-                      )}
+                      <Image className="h-5 w-5 text-gray-600 group-hover:text-vibrant-pink transition-colors" />
+                      <div className="absolute inset-0 bg-vibrant-pink opacity-0 group-hover:opacity-10 rounded-full transition-opacity"></div>
                     </button>
+                    {showTooltip === 'image_upload' && (
+                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-black text-white text-sm rounded-lg whitespace-nowrap z-50">
+                        Coming soon 🦘
+                        <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-2 h-2 bg-black rotate-45"></div>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -163,23 +164,23 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
                   value={prompt}
                   onChange={handlePromptChange}
                   placeholder=""
-                  className="flex-1 px-4 pt-12 pb-16 bg-transparent text-lg placeholder-gray-500 focus:outline-none resize-none font-source-sans w-full"
-                  disabled={isGenerating || !canGenerate}
+                  className="flex-1 px-4 pt-12 pb-16 bg-transparent text-lg placeholder-gray-500 focus:outline-none resize-none font-source-sans w-full pr-32"
+                  disabled={isGenerating}
                   rows={3}
                   maxLength={1000}
                 />
 
                 {/* Character counter - moved to bottom right corner */}
-                <div className="absolute bottom-4 right-20 text-xs text-gray-400 font-source-sans">
+                <div className="absolute bottom-4 right-32 text-xs text-gray-400 font-source-sans">
                   {prompt.length}/1000
                 </div>
 
-                {/* Enhanced generate button */}
+                {/* Enhanced generate button - inside input field */}
                 <button
                   type="submit"
-                  disabled={isGenerating || !canGenerate}
+                  disabled={isGenerating}
                   className={`absolute right-4 bottom-4 px-6 py-3 rounded-full font-semibold transition-all flex items-center space-x-2 relative overflow-hidden ${
-                    !isGenerating && canGenerate
+                    !isGenerating
                       ? 'bg-vibrant-pink text-white hover:bg-pink-600 shadow-lg hover:shadow-xl transform hover:scale-105'
                       : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                   }`}
@@ -200,26 +201,6 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
                 </button>
               </div>
             </div>
-
-            {/* Image Upload Section */}
-            {showImageUpload && (
-              <div className="mt-4">
-                <div className="bg-gray-50 rounded-xl p-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-sm font-medium text-gray-900 font-source-sans">
-                      Reference Image (Coming Soon)
-                    </h3>
-                    <p className="text-xs text-gray-500 font-source-sans">
-                      Image-to-image generation will be available soon
-                    </p>
-                  </div>
-                  <ImageUpload
-                    onImageSelect={handleImageSelect}
-                    selectedImage={selectedImage}
-                  />
-                </div>
-              </div>
-            )}
             
             {/* Enhanced error display */}
             {currentError && (
@@ -293,7 +274,7 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
                 onChange={handlePromptChange}
                 placeholder=""
                 className="w-full px-4 pt-3 pb-12 bg-transparent text-base placeholder-gray-500 focus:outline-none resize-none font-source-sans"
-                disabled={isGenerating || !canGenerate}
+                disabled={isGenerating}
                 rows={1}
                 maxLength={1000}
                 style={{
@@ -334,31 +315,27 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
                     <button
                       type="button"
                       onClick={handleImageClick}
-                      className={`w-8 h-8 rounded-full flex items-center justify-center transition-all relative overflow-hidden group ${
-                        showImageUpload || selectedImage
-                          ? 'bg-vibrant-pink text-white'
-                          : 'bg-gray-100 hover:bg-gray-200'
-                      }`}
-                      title="Upload reference image (Coming soon)"
+                      className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-all relative overflow-hidden group"
+                      title="Upload reference image"
                     >
-                      <Image className={`h-4 w-4 transition-colors ${
-                        showImageUpload || selectedImage
-                          ? 'text-white'
-                          : 'text-gray-600 group-hover:text-vibrant-pink'
-                      }`} />
-                      {!showImageUpload && !selectedImage && (
-                        <div className="absolute inset-0 bg-vibrant-pink opacity-0 group-hover:opacity-10 rounded-full transition-opacity"></div>
-                      )}
+                      <Image className="h-4 w-4 text-gray-600 group-hover:text-vibrant-pink transition-colors" />
+                      <div className="absolute inset-0 bg-vibrant-pink opacity-0 group-hover:opacity-10 rounded-full transition-opacity"></div>
                     </button>
+                    {showTooltip === 'image_upload' && (
+                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-black text-white text-sm rounded-lg whitespace-nowrap z-50">
+                        Coming soon 🦘
+                        <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-2 h-2 bg-black rotate-45"></div>
+                      </div>
+                    )}
                   </div>
                 </div>
 
                 {/* Generate button - right aligned */}
                 <button
                   type="submit"
-                  disabled={isGenerating || !canGenerate}
+                  disabled={isGenerating}
                   className={`px-3 py-2 rounded-full font-semibold transition-all flex items-center space-x-1 relative overflow-hidden ${
-                    !isGenerating && canGenerate
+                    !isGenerating
                       ? 'bg-vibrant-pink text-white hover:bg-pink-600 shadow-lg hover:shadow-xl transform hover:scale-105'
                       : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                   }`}
@@ -379,26 +356,6 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
                 </button>
               </div>
             </div>
-
-            {/* Image Upload Section */}
-            {showImageUpload && (
-              <div className="mt-4">
-                <div className="bg-gray-50 rounded-xl p-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-sm font-medium text-gray-900 font-source-sans">
-                      Reference Image (Coming Soon)
-                    </h3>
-                    <p className="text-xs text-gray-500 font-source-sans">
-                      Image-to-image generation will be available soon
-                    </p>
-                  </div>
-                  <ImageUpload
-                    onImageSelect={handleImageSelect}
-                    selectedImage={selectedImage}
-                  />
-                </div>
-              </div>
-            )}
             
             {/* Enhanced error display */}
             {currentError && (
