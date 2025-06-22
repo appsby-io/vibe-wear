@@ -18,7 +18,7 @@ export default async (req: Request, _ctx: Context) => {
   const apiRes = await fetch("https://api.openai.com/v1/images/generations", {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${Netlify.env.get("VITE_OPENAI_API_KEY")}`, // 🔐 secret stays on the edge
+      Authorization: `Bearer ${Netlify.env.get("OPENAI_API_KEY_SERVER")}`, // 🔐 secret stays on the edge
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
