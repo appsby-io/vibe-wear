@@ -1,0 +1,18 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[[edge_functions]]
+  function = "generateDesign"
+  path = "/.netlify/edge-functions/generateDesign"
+
+[[edge_functions]]
+  function = "analyzeImage"
+  path = "/.netlify/edge-functions/analyzeImage"
+
+[[edge_functions]]
+  function = "generateImage"
+  path = "/.netlify/edge-functions/generateImage"
+
+[build.environment]
+  NODE_VERSION = "18"

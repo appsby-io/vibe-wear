@@ -45,19 +45,32 @@ export function validatePrompt(
 }
 
 /* ------------------------------------------------------------------------- */
-/*  Prompt-enhancement helpers (unchanged from the original file)            */
+/*  Prompt-enhancement helpers                                               */
 /* ------------------------------------------------------------------------- */
 
-const contentGuidelines =
-  'no offensive content, no copyrighted images';
+const contentGuidelines = 'no offensive content, no copyrighted images';
 
 const STYLE_PROMPTS: Record<string, string> = {
-  /* … existing long style-prompt map, unchanged … */
   cartoonblocks:
     '3D cartoon illustration of a blocky game character. Simplified low-poly character design with cube-shaped head, cylindrical limbs, flat textures, and bright vibrant colors. Minimal facial features with expressive face. Stylized low-poly look with clean outlines and no complex shading. Simple background or flat white background. Designed in a generic blocky game art style. No photorealism, no realistic materials, no complex environments, no brand references.',
   cyberpunk:
     'Focus on the subject. Cyberpunk futuristic illustration with cinematic lighting and immersive depth. Dark neon-lit city environment with glowing signs, reflections on wet surfaces, mist and rain. Bright cyan, magenta, electric blue, and hot pink neon lights. Dynamic side lighting with strong shadows and color glow. Urban background with holographic billboards, flying particles, and futuristic architecture. Designed for bold poster or T-shirt print. No flat circuit patterns, no pure digital UI overlays, no abstract backgrounds. Focus on realistic lighting, depth, and cinematic composition.',
-  /* … keep the rest of your STYLE_PROMPTS exactly as before … */
+  comic:
+    'catchy vintage manga comic style illustration that would look good on a poster, draw it in a 1960s Saturday-morning adventure style, Single-panel, similar to Pokemon or Digimon, dynamic composition, expressive character poses – thick uniform black ink outlines, flat sun-faded primary colours (sky-blue, warm ochre, golden yellow, cream highlights), subtle halftone texture, and dynamic motion lines. Shot at a slightly low angle so the characters break the frame edges. No modern 3-D shading, gradients, or photographic detail – keep it strictly flat-colour',
+  watercolor:
+    'illustration in soft watercolor painting style with organic flowing aestheticsthat would look good on a poster. Gentle color bleeds, transparent layered washes, soft brush stroke textures, natural color transitions, dreamy atmospheric effects. Use flowing organic shapes with artistic spontaneity and natural color palettes like soft blues, gentle greens, and warm earth tones. Controlled bleeding effects.',
+  realistic:
+    'Design in photorealistic style with detailed lifelike rendering. Looks good at a poster. High-quality photographic aesthetics, detailed textures, natural lighting and shadows, accurate proportions, realistic materials and surfaces. Use professional photography composition with crisp details and lifelike color accuracy.',
+  'black-and-white':
+    'Black and white realistic vintage photograph, highly detailed, sharp focus, dramatic lighting with strong shadows, high contrast, retro aesthetic, centered composition, no background noise, plain background.',
+  botanical:
+    'Hand-drawn botanical illustration with delicate line work and subtle shading. Detailed flowers, leaves, and stems in natural composition. Minimalist approach with clean lines, scientific illustration style, elegant and refined aesthetic.',
+  'cartoon-avatar':
+    '2D minimalistic cartoon character avatar with exaggerated features, clean white #ffffff background, large expressive eyes, clean bold outlines, bright saturated colors. Modern emoji/avatar style similar to Apple Memoji, friendly and approachable design',
+  'childrens-book':
+    '2D flat Children\'s book illustration style with soft pastel colors like warm beige, soft blue, pastel green, whimsical characters, hand-painted texture, playful composition. Friendly and approachable aesthetic suitable for young audiences, storybook quality, would look good on a tshirt, white background.',
+  grunge:
+    'Grunge rock poster style with distressed textures, rough edges, high contrast black, white with selective red accents. Raw, edgy aesthetic with worn textures and bold typography elements.',
   'vintage-comic':
     'Black and white vintage comic panel illustration, highly detailed, realistic rendering, heavy ink shading, bold lines, high contrast, comic speech bubbles in cartoon style where needed, square format, no color, no background noise, clean composition'
 };
@@ -143,12 +156,18 @@ export async function generateDesign(
   const enhancedPrompt = enhancePrompt(prompt, style, productColor);
 
   try {
-    const { url, revised_prompt: revisedPrompt } = await callEdgeForImage(
+    const { url, revised_prompt: revisedPrompt, error } = await callEdgeForImage(
       enhancedPrompt,
       quality
     );
 
-    if (!url) throw new Error('No image returned');
+    if (error) {
+      throw new Error(error);
+    }
+
+    if (!url) {
+      throw new Error('No image returned');
+    }
 
     await logPromptToDatabase({
       originalPrompt: prompt,
@@ -169,8 +188,7 @@ export async function generateDesign(
       quality
     };
   } catch (err: any) {
-    const message =
-      err.message || 'AI image generation is currently unavailable';
+    const message = err.message || 'AI image generation is currently unavailable';
 
     await logPromptToDatabase({
       originalPrompt: prompt,
