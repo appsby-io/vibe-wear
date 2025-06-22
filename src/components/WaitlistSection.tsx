@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { CheckIcon } from '@heroicons/react/24/outline';
 import { LottieAnimation } from './LottieAnimation';
 import KangarooImage from '../assets/cangaroo-hammock.jpg';
 import successAnimationData from '../assets/success.json';
@@ -68,8 +67,9 @@ export const WaitlistSection: React.FC = () => {
         setIsSuccess(false);
       }, 5000);
 
-    } catch (err: any) {
-      setError(err.message || 'Failed to join waitlist. Please try again.');
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to join waitlist. Please try again.';
+      setError(errorMessage);
     } finally {
       setIsSubmitting(false);
     }

@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
+    "@netlify/edge-functions": "^2.15.1",
     "@playwright/test": "^1.40.0",
     "@types/js-cookie": "^3.0.6",
     "@types/react": "^18.3.5",

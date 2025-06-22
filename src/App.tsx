@@ -19,9 +19,9 @@ import { useCart } from './hooks/useCart';
 import { useToast } from './hooks/useToast';
 import { useDesignCounter } from './store/useDesignCounter';
 import { handleDesignGeneration } from './utils/designGeneration';
-import { handleAddToCartLogic } from './utils/cartHandlers';
 import { handleCheckoutFlow } from './utils/checkoutHandlers';
 import { ga } from './lib/ga';
+import { CheckoutForm, OrderSummary } from './types';
 
 function App() {
   const {
@@ -49,7 +49,6 @@ function App() {
 
   const {
     cartItems,
-    addToCart,
     updateQuantity,
     removeFromCart,
     clearCart,
@@ -93,15 +92,6 @@ function App() {
     console.log('Analytics tracking declined');
   };
 
-  const scrollToWaitlist = () => {
-    const waitlistSection = document.getElementById('waitlist-section');
-    if (waitlistSection) {
-      waitlistSection.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      });
-    }
-  };
 
   const handleGenerate = async (prompt: string, styleOverride?: string, referenceImage?: File) => {
     // Check if user can still generate
@@ -168,7 +158,7 @@ function App() {
     setCurrentView('design');
   };
 
-  const handleProceedToPayment = async (form: any, orderSummary: any) => {
+  const handleProceedToPayment = async (form: CheckoutForm, orderSummary: OrderSummary) => {
     await handleCheckoutFlow(
       form,
       orderSummary,
@@ -221,7 +211,7 @@ function App() {
     setCurrentView('design');
   };
 
-  const handleFeatureClick = (feature: string) => {
+  const handleFeatureClick = () => {
     // Show waitlist modal for non-functional features
     setShowWaitlistModal(true);
   };

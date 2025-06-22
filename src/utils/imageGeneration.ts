@@ -1,19 +1,5 @@
 // src/utils/imageGeneration.ts
-import OpenAI from 'openai';
 import { logPromptToDatabase } from './promptLogger';
-
-// Check if API key is available
-const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
-
-let openai: OpenAI | null = null;
-
-// Only initialize OpenAI if API key is available
-if (apiKey) {
-  openai = new OpenAI({
-    apiKey: apiKey,
-    dangerouslyAllowBrowser: true // Only for client-side demos
-  });
-}
 
 // Validation function for prompts
 export function validatePrompt(prompt: string): { valid: boolean; error?: string } {
@@ -105,25 +91,6 @@ export async function generateDesign(
   const enhancedPrompt = enhancePrompt(prompt, style, productColor);
   
   try {
-    // Check if OpenAI is available
-    if (!openai) {
-      // Log failed attempt
-      await logPromptToDatabase({
-        originalPrompt: prompt,
-        enhancedPrompt,
-        style,
-        productColor,
-        quality,
-        success: false,
-        errorMessage: 'AI image generation is currently unavailable'
-      });
-
-      return {
-        success: false,
-        error: 'AI image generation is currently unavailable. Please join our waitlist to be notified when this feature is ready!'
-      };
-    }
-
     if (!prompt?.trim()) {
       await logPromptToDatabase({
         originalPrompt: prompt,
@@ -143,17 +110,41 @@ export async function generateDesign(
 
     console.log('Enhanced prompt (DALL-E 3):', enhancedPrompt);
 
-    const response = await openai.images.generate({
-      model: "dall-e-3",
-      prompt: enhancedPrompt,
-      quality: quality === 'hd' ? 'hd' : 'standard',
-      size: "1024x1024",
-      n: 1
+    // Use Netlify edge function for secure image generation
+    const response = await fetch('/.netlify/functions/generateImage', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        prompt: enhancedPrompt,
+        quality: quality === 'hd' ? 'hd' : 'standard',
+        size: "1024x1024"
+      })
     });
 
-    console.log('DALL-E 3 API Response:', response);
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Netlify function error:', errorText);
+      
+      await logPromptToDatabase({
+        originalPrompt: prompt,
+        enhancedPrompt,
+        style,
+        productColor,
+        quality,
+        success: false,
+        errorMessage: `API Error: ${response.status}`
+      });
 
-    const imageUrl = response.data[0]?.url;
+      return {
+        success: false,
+        error: 'AI image generation is currently unavailable. Please try again later.'
+      };
+    }
+
+    const data = await response.json();
+    const imageUrl = data.data?.[0]?.url;
 
     if (!imageUrl) {
       await logPromptToDatabase({
@@ -176,7 +167,7 @@ export async function generateDesign(
     await logPromptToDatabase({
       originalPrompt: prompt,
       enhancedPrompt,
-      revisedPrompt: response.data[0]?.revised_prompt,
+      revisedPrompt: data.data?.[0]?.revised_prompt,
       style,
       productColor,
       quality,
@@ -188,22 +179,14 @@ export async function generateDesign(
       success: true,
       imageUrl,
       prompt: enhancedPrompt,
-      revisedPrompt: response.data[0]?.revised_prompt,
+      revisedPrompt: data.data?.[0]?.revised_prompt,
       quality
     };
 
-  } catch (error: any) {
-    console.error('DALL-E 3 API Error:', error);
+  } catch (error: unknown) {
+    console.error('Image generation error:', error);
 
-    let errorMessage = 'AI image generation is currently unavailable';
-    
-    if (error?.error?.code === 'content_policy_violation') {
-      errorMessage = 'Content policy violation. Please try a different prompt.';
-    } else if (error?.error?.code === 'rate_limit_exceeded') {
-      errorMessage = 'Rate limit exceeded. Please wait a moment and try again.';
-    } else if (error?.error?.code === 'insufficient_quota') {
-      errorMessage = 'API quota exceeded. Please check your OpenAI account.';
-    }
+    const errorMessage = error instanceof Error ? error.message : 'AI image generation is currently unavailable';
 
     // Log failed generation
     await logPromptToDatabase({
@@ -213,12 +196,12 @@ export async function generateDesign(
       productColor,
       quality,
       success: false,
-      errorMessage: error?.message || errorMessage
+      errorMessage
     });
 
     return {
       success: false,
-      error: errorMessage
+      error: 'AI image generation is currently unavailable. Please try again later.'
     };
   }
 }

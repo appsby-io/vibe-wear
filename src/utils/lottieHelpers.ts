@@ -14,7 +14,7 @@ export const loadLottieAnimation = async (path: string) => {
 };
 
 export const createLottieConfig = (
-  animationData: any,
+  animationData: object,
   options: {
     loop?: boolean;
     autoplay?: boolean;

@@ -1,5 +1,4 @@
 import React from 'react';
-import StyleGraffiti from '../assets/style_graffiti copy.jpg';
 import StyleCyberpunk from '../assets/style_cyberpunk copy.jpg';
 import StyleComic from '../assets/style_comic copy.jpg';
 import StyleWatercolor from '../assets/style_watercolor copy.jpg';

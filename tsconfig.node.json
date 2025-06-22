@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["ES2023"],
+    "lib": ["ES2023", "DOM"],
     "module": "ESNext",
+    "types": ["@netlify/edge-functions"],
     "skipLibCheck": true,
 
     /* Bundler mode */
@@ -18,5 +19,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["vite.config.ts"]
+  "include": ["vite.config.ts", "netlify/edge-functions/**/*.ts", "e2e/**/*.d.ts"]
 }

@@ -52,7 +52,7 @@ export const useCart = () => {
           : item
       )
     );
-  }, []);
+  }, [removeFromCart]);
 
   const removeFromCart = useCallback((itemId: string) => {
     setCartItems(prev => prev.filter(item => item.id !== itemId));

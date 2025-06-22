@@ -13,14 +13,8 @@ export const Footer: React.FC<FooterProps> = ({
   onImprintClick, 
   onAdminClick, 
   onPrivacyClick, 
-  onTermsClick,
-  onFeatureClick 
+  onTermsClick 
 }) => {
-  const handleFeatureClick = (feature: string) => {
-    if (onFeatureClick) {
-      onFeatureClick(feature);
-    }
-  };
 
   return (
     <footer className="bg-black text-white py-12">

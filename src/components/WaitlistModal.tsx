@@ -69,7 +69,7 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({
         try {
           const errorData = await response.json();
           errorMessage = errorData.error || errorMessage;
-        } catch (jsonError) {
+        } catch {
           errorMessage = `Server error (${response.status}). Please try again.`;
         }
         throw new Error(errorMessage);
@@ -85,8 +85,9 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({
 
       // Don't auto-close - stay on success screen
 
-    } catch (err: any) {
-      setError(err.message || 'Failed to join waitlist. Please try again.');
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to join waitlist. Please try again.';
+      setError(errorMessage);
     } finally {
       setIsSubmitting(false);
     }

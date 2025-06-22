@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Sparkles, Mic, Image, AlertCircle } from 'lucide-react';
 import { validatePrompt } from '../utils/imageGeneration';
-import { ImageUpload } from './ImageUpload';
 import { ga } from '../lib/ga';
 
 interface AIGeneratorProps {
@@ -23,8 +22,6 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [validationError, setValidationError] = useState<string | null>(null);
   const [showTooltip, setShowTooltip] = useState<string | null>(null);
-  const [showImageUpload, setShowImageUpload] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -85,7 +82,8 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
       // Start generation immediately without delay
       await onGenerate(prompt.trim(), selectedStyle || undefined);
       
-    } catch (err) {
+    } catch (error) {
+      console.error('Generation error:', error);
       setError('Failed to generate design. Please try again.');
     }
   };
@@ -114,9 +112,6 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
     setTimeout(() => setShowTooltip(null), 2000);
   };
 
-  const handleImageSelect = (file: File | null) => {
-    setSelectedImage(file);
-  };
 
   const currentError = validationError || error;
 

@@ -53,7 +53,7 @@ export async function logPromptToDatabase(data: PromptLogData): Promise<void> {
 }
 
 // Get user's prompt history
-export async function getUserPromptHistory(): Promise<any[]> {
+export async function getUserPromptHistory(): Promise<PromptLogData[]> {
   try {
     const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
     const userSession = getOrCreateSessionId();

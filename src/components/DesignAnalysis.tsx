@@ -48,7 +48,8 @@ export const DesignAnalysis: React.FC<DesignAnalysisProps> = ({
       } else {
         setError(result.error);
       }
-    } catch (err) {
+    } catch (error) {
+      console.error('Design analysis error:', error);
       setError('Failed to analyze design. Please try again.');
     } finally {
       setIsAnalyzing(false);
@@ -74,7 +75,8 @@ export const DesignAnalysis: React.FC<DesignAnalysisProps> = ({
       } else {
         setError(result.error);
       }
-    } catch (err) {
+    } catch (error) {
+      console.error('Suggestions generation error:', error);
       setError('Failed to generate suggestions. Please try again.');
     } finally {
       setIsGeneratingSuggestions(false);

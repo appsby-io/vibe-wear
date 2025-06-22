@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowLeft, ToggleLeft, ToggleRight, Download, Eye, Calendar, TrendingUp } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowLeft, ToggleLeft, ToggleRight, Download, Eye, TrendingUp } from 'lucide-react';
 import { useFeature, useFeatureToggle } from '../../store/useFeature';
 
 interface AdminPageProps {
@@ -261,7 +261,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBack }) => {
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4 font-source-sans">Popular Styles</h3>
               <div className="space-y-3">
-                {stats.topStyles.map((item, index) => (
+                {stats.topStyles.map((item) => (
                   <div key={item.style} className="flex items-center justify-between">
                     <span className="text-sm text-gray-700 font-source-sans capitalize">{item.style}</span>
                     <span className="text-sm font-semibold text-gray-900 font-source-sans">{item.count}</span>
@@ -273,7 +273,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBack }) => {
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4 font-source-sans">Product Colors</h3>
               <div className="space-y-3">
-                {stats.topColors.map((item, index) => (
+                {stats.topColors.map((item) => (
                   <div key={item.color} className="flex items-center justify-between">
                     <span className="text-sm text-gray-700 font-source-sans">{item.color}</span>
                     <span className="text-sm font-semibold text-gray-900 font-source-sans">{item.count}</span>

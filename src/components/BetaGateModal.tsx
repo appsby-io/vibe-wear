@@ -59,7 +59,8 @@ export const BetaGateModal: React.FC<BetaGateModalProps> = ({
         setEmail('');
       }, 3000);
 
-    } catch (err) {
+    } catch (error) {
+      console.error('Error joining waitlist:', error);
       setError('Failed to join waitlist. Please try again.');
     } finally {
       setIsSubmitting(false);

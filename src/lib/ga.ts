@@ -1,7 +1,7 @@
 import ReactGA from 'react-ga4';
 
 interface GAEventParams {
-  [key: string]: any;
+  [key: string]: string | number | boolean;
 }
 
 interface EcommerceItem {
@@ -107,7 +107,7 @@ class GoogleAnalytics {
     });
   }
 
-  setUserProperty(propertyName: string, value: any) {
+  setUserProperty(propertyName: string, value: string | number | boolean) {
     if (!this.isInitialized) return;
     
     ReactGA.set({
