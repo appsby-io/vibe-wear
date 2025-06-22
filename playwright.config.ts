@@ -8,7 +8,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   use: {
-    baseURL: 'http://localhost:8888',
+    baseURL: 'http://localhost:5173',
     trace: 'on-first-retry',
   },
 
@@ -28,8 +28,8 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: 'netlify dev',
-    url: 'http://localhost:8888',
+    command: 'npm run dev',
+    url: 'http://localhost:5173',
     reuseExistingServer: !process.env.CI,
   },
 });

@@ -2,17 +2,20 @@
   command = "npm run build"
   publish = "dist"
 
-[[edge_functions]]
-  function = "generateDesign"
-  path = "/.netlify/edge-functions/generateDesign"
-
-[[edge_functions]]
-  function = "analyzeImage"
-  path = "/.netlify/edge-functions/analyzeImage"
-
-[[edge_functions]]
-  function = "generateImage"
-  path = "/.netlify/edge-functions/generateImage"
-
 [build.environment]
   NODE_VERSION = "18"
+
+[[redirects]]
+  from = "/api/generateDesign"
+  to = "/.netlify/functions/generateDesign"
+  status = 200
+
+[[redirects]]
+  from = "/api/analyzeImage"
+  to = "/.netlify/functions/analyzeImage"
+  status = 200
+
+[[redirects]]
+  from = "/api/generateImage"
+  to = "/.netlify/functions/generateImage"
+  status = 200
