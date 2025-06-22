@@ -110,7 +110,8 @@ function enhancePrompt(
 /*  Helper to call the Edge Function                                         */
 /* ------------------------------------------------------------------------- */
 
-const EDGE_ENDPOINT = '/.netlify/edge-functions/generateDesign';
+const EDGE_FUNCTIONS_BASE_URL = import.meta.env.VITE_EDGE_FUNCTIONS_BASE_URL || '';
+const EDGE_ENDPOINT = `${EDGE_FUNCTIONS_BASE_URL}/.netlify/edge-functions/generateDesign`;
 
 async function callEdgeForImage(
   prompt: string,
