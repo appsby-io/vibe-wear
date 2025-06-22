@@ -6,7 +6,7 @@ import OpenAI from "openai";
 
 // Read the secret *only* at the edge (never sent to the browser)
 const openai = new OpenAI({
-  apiKey: Netlify.env.get("OPENAI_API_KEY_SERVER")   // <-- set this in Netlify UI
+  apiKey: Netlify.env.get("VITE_OPENAI_API_KEY_SERVER")   // <-- set this in Netlify UI
 });
 
 export default async (req: Request, _ctx: Context) => {
