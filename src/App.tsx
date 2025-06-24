@@ -62,7 +62,7 @@ function App() {
   // Initialize Google Analytics
   useEffect(() => {
     const consent = localStorage.getItem('cookieConsent');
-    const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID || 'G-XRSVNZRSFP';
+    const measurementId = import.meta.env.VITE_GA_ID || import.meta.env.VITE_GA_MEASUREMENT_ID || 'G-XRSVNZRSFP';
     
     if (consent === 'accepted' && measurementId) {
       ga.initialize(measurementId);
@@ -81,7 +81,7 @@ function App() {
   }, [showToast]);
 
   const handleCookieAccept = () => {
-    const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID || 'G-XRSVNZRSFP';
+    const measurementId = import.meta.env.VITE_GA_ID || import.meta.env.VITE_GA_MEASUREMENT_ID || 'G-XRSVNZRSFP';
     if (measurementId) {
       ga.initialize(measurementId);
     }
