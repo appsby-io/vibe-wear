@@ -1,0 +1,17 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[[edge_functions]]
+  path = "/.netlify/edge-functions/generateImage"
+  function = "generateImage"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+# SPA routing support
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  conditions = {Role = ["admin"]}

@@ -124,8 +124,33 @@ export async function generateDesign(
     });
 
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Netlify function error:', errorText);
+      let errorMessage = 'AI image generation is currently unavailable. Please try again later.';
+      let errorDetails = '';
+      
+      try {
+        const errorData = await response.json();
+        errorDetails = errorData.details || '';
+        
+        // Provide more specific error messages
+        if (errorData.error?.includes('API key not configured')) {
+          errorMessage = 'Image generation service is not configured. Please contact support.';
+        } else if (errorData.error?.includes('model_not_found') || errorData.error?.includes('gpt-image-1')) {
+          errorMessage = 'The requested image model (gpt-image-1) is not available. You may need to apply for access or use dall-e-3 instead.';
+        } else if (response.status === 429) {
+          errorMessage = 'Too many requests. Please wait a moment and try again.';
+        } else if (response.status === 401 || response.status === 403) {
+          errorMessage = 'Authentication failed. Please check your API access.';
+        } else if (errorData.error) {
+          // Show the actual error from the API
+          errorMessage = errorData.error;
+        }
+        
+        console.error('Netlify function error:', errorData);
+      } catch (e) {
+        // If response isn't JSON, try to parse as text
+        const errorText = await response.text();
+        console.error('Netlify function error (text):', errorText);
+      }
       
       await logPromptToDatabase({
         originalPrompt: prompt,
@@ -134,12 +159,12 @@ export async function generateDesign(
         productColor,
         quality,
         success: false,
-        errorMessage: `API Error: ${response.status}`
+        errorMessage: `API Error: ${response.status} - ${errorDetails}`
       });
 
       return {
         success: false,
-        error: 'AI image generation is currently unavailable. Please try again later.'
+        error: errorMessage
       };
     }
 
