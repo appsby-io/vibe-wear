@@ -63,7 +63,7 @@ export default async (req: Request) => {
       body: JSON.stringify({
         model: "gpt-image-1",
         prompt,
-        quality: quality === 'hd' ? 'hd' : 'standard',
+        quality: quality === 'hd' ? 'high' : 'medium',
         n: 1,
         size
       })
