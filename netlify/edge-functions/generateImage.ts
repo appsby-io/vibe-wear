@@ -54,19 +54,24 @@ export default async (req: Request) => {
     }
 
     // Call OpenAI Images API (gpt-image-1)
+    const requestBody = {
+      model: "gpt-image-1",
+      prompt,
+      quality: quality === 'hd' ? 'high' : 'medium',
+      n: 1,
+      size,
+      response_format: "url" // Explicitly request URL format
+    };
+    
+    console.log('Request to OpenAI:', requestBody);
+    
     const apiRes = await fetch("https://api.openai.com/v1/images/generations", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        model: "gpt-image-1",
-        prompt,
-        quality: quality === 'hd' ? 'high' : 'medium',
-        n: 1,
-        size
-      })
+      body: JSON.stringify(requestBody)
     });
 
     if (!apiRes.ok) {

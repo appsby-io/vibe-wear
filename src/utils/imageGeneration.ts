@@ -170,9 +170,13 @@ export async function generateDesign(
     }
 
     const data = await response.json();
-    const imageUrl = data.data?.[0]?.url;
-
+    console.log('API Response:', data);
+    
+    // gpt-image-1 might return a different structure
+    const imageUrl = data.data?.[0]?.url || data.data?.[0]?.b64_json;
+    
     if (!imageUrl) {
+      console.error('No image URL found in response:', data);
       await logPromptToDatabase({
         originalPrompt: prompt,
         enhancedPrompt,
