@@ -146,6 +146,7 @@ export async function generateDesign(
         }
         
         console.error('Netlify function error:', errorData);
+        console.error('Error details:', errorDetails);
       } catch (e) {
         // If response isn't JSON, try to parse as text
         const errorText = await response.text();

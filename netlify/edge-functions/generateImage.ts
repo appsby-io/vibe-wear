@@ -70,11 +70,20 @@ export default async (req: Request) => {
     });
 
     if (!apiRes.ok) {
-      const errorText = await apiRes.text();
+      let errorDetails = {};
+      try {
+        errorDetails = await apiRes.json();
+      } catch (e) {
+        const errorText = await apiRes.text();
+        errorDetails = { message: errorText };
+      }
+      
+      console.error('OpenAI API error:', apiRes.status, errorDetails);
+      
       return new Response(
         JSON.stringify({ 
-          error: `OpenAI API error: ${apiRes.status}`,
-          details: errorText 
+          error: errorDetails.error?.message || errorDetails.message || `OpenAI API error: ${apiRes.status}`,
+          details: errorDetails
         }),
         { 
           status: apiRes.status,
