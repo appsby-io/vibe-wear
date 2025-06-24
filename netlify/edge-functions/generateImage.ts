@@ -1,4 +1,4 @@
-import type { Context } from "@netlify/edge-functions";
+// Edge function for secure OpenAI image generation
 
 declare global {
   const Netlify: {
@@ -39,7 +39,7 @@ export default async (req: Request) => {
     }
 
     // Get API key from environment
-    const apiKey = Netlify.env.get("VITE_OPENAI_API_KEY");
+    const apiKey = Netlify.env.get("OPENAI_API_KEY_SERVER");
     if (!apiKey) {
       return new Response(
         JSON.stringify({ error: 'OpenAI API key not configured' }),
@@ -53,7 +53,7 @@ export default async (req: Request) => {
       );
     }
 
-    // Call OpenAI Images API (DALL-E 3)
+    // Call OpenAI Images API (gpt-image-1)
     const apiRes = await fetch("https://api.openai.com/v1/images/generations", {
       method: "POST",
       headers: {
@@ -61,7 +61,7 @@ export default async (req: Request) => {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "dall-e-3",
+        model: "gpt-image-1",
         prompt,
         quality: quality === 'hd' ? 'hd' : 'standard',
         n: 1,

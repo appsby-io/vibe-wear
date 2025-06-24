@@ -1,18 +1,9 @@
 // src/utils/imageAnalysis.js
 import OpenAI from 'openai';
 
-// Check if API key is available
-const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
-
+// API key is now handled on the server side for security
+// Direct client-side OpenAI access is disabled
 let openai = null;
-
-// Only initialize OpenAI if API key is available
-if (apiKey) {
-  openai = new OpenAI({
-    apiKey: apiKey,
-    dangerouslyAllowBrowser: true
-  });
-}
 
 // GPT-4o Image Analysis for Product Design Quality Assessment
 export async function analyzeDesignWithGPT4o(imageUrl, originalPrompt, selectedStyle, productColor) {

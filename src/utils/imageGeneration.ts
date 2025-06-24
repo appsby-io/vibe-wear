@@ -108,10 +108,10 @@ export async function generateDesign(
       };
     }
 
-    console.log('Enhanced prompt (DALL-E 3):', enhancedPrompt);
+    console.log('Enhanced prompt (gpt-image-1):', enhancedPrompt);
 
     // Use Netlify edge function for secure image generation
-    const response = await fetch('/.netlify/functions/generateImage', {
+    const response = await fetch('/.netlify/edge-functions/generateImage', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

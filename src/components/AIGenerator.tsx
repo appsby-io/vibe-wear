@@ -115,8 +115,8 @@ export const AIGenerator: React.FC<AIGeneratorProps> = ({
 
   const currentError = validationError || error;
 
-  // Check if OpenAI API key is available
-  const isApiKeyAvailable = !!import.meta.env.VITE_OPENAI_API_KEY;
+  // API key is now handled on the server side
+  const isApiKeyAvailable = true;
 
   return (
     <>
