@@ -59,8 +59,7 @@ export default async (req: Request) => {
       prompt,
       quality: quality === 'hd' ? 'high' : 'medium',
       n: 1,
-      size,
-      response_format: "url" // Explicitly request URL format
+      size
     };
     
     console.log('Request to OpenAI:', requestBody);
