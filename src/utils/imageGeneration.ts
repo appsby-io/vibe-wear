@@ -171,9 +171,11 @@ export async function generateDesign(
 
     const data = await response.json();
     console.log('API Response:', data);
+    console.log('Image data structure:', data.data?.[0]);
     
     // gpt-image-1 might return a different structure
     const imageUrl = data.data?.[0]?.url || data.data?.[0]?.b64_json;
+    console.log('Extracted image URL:', imageUrl);
     
     if (!imageUrl) {
       console.error('No image URL found in response:', data);
