@@ -173,9 +173,17 @@ export async function generateDesign(
     console.log('API Response:', data);
     console.log('Image data structure:', data.data?.[0]);
     
-    // gpt-image-1 might return a different structure
-    const imageUrl = data.data?.[0]?.url || data.data?.[0]?.b64_json;
-    console.log('Extracted image URL:', imageUrl);
+    // gpt-image-1 returns base64 data
+    const imageData = data.data?.[0];
+    let imageUrl = imageData?.url;
+    
+    // If we get base64 data instead of a URL, convert it
+    if (!imageUrl && imageData?.b64_json) {
+      console.log('Converting base64 to data URL...');
+      imageUrl = `data:image/png;base64,${imageData.b64_json}`;
+    }
+    
+    console.log('Final image URL:', imageUrl ? 'Generated successfully' : 'Not found');
     
     if (!imageUrl) {
       console.error('No image URL found in response:', data);

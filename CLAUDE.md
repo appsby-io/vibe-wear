@@ -18,13 +18,14 @@ Latest commit: `3351f35`
 - ✅ Confirmed organization has gpt-image-1 access
 
 #### Fixed Issues:
-- ✅ Fixed "Unknown parameter: 'response_format'" error by adding it back (it does work with gpt-image-1)
-- ✅ Added `response_format: "url"` parameter to get URLs instead of base64 data
-- ✅ Image generation now returns proper URLs that can be displayed in the UI
+- ✅ Removed `response_format` parameter - gpt-image-1 doesn't support it
+- ✅ Added base64 to data URL conversion in frontend
+- ✅ Image generation now properly handles base64 responses
 
 #### Latest Status:
-- Image generation is working correctly with gpt-image-1
-- API returns URLs instead of base64 data
+- Image generation works with gpt-image-1
+- API returns base64 data (b64_json field)
+- Frontend converts base64 to data URLs for display
 - Images display properly in the UI
 
 #### Key Files Modified:
