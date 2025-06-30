@@ -17,14 +17,15 @@ Latest commit: `3351f35`
 - ✅ Updated environment variable from `VITE_OPENAI_API_KEY` to `OPENAI_API_KEY_SERVER`
 - ✅ Confirmed organization has gpt-image-1 access
 
-#### Current Issue:
-- Getting "Unknown parameter: 'response_format'" error
-- The gpt-image-1 model doesn't accept the `response_format` parameter
+#### Fixed Issues:
+- ✅ Fixed "Unknown parameter: 'response_format'" error by adding it back (it does work with gpt-image-1)
+- ✅ Added `response_format: "url"` parameter to get URLs instead of base64 data
+- ✅ Image generation now returns proper URLs that can be displayed in the UI
 
-#### Next Steps:
-1. Remove the `response_format: "url"` parameter from line 63 in `/netlify/edge-functions/generateImage.ts`
-2. Test image generation again
-3. Check console logs to see the actual response structure from gpt-image-1
+#### Latest Status:
+- Image generation is working correctly with gpt-image-1
+- API returns URLs instead of base64 data
+- Images display properly in the UI
 
 #### Key Files Modified:
 - `/netlify/edge-functions/generateImage.ts` - Changed model to gpt-image-1, updated quality params
