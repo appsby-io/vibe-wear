@@ -56,7 +56,7 @@ exports.handler = async (event, context) => {
       body: JSON.stringify({
         model: "gpt-image-1",
         prompt,
-        quality: quality === "hd" ? "hd" : "standard",
+        quality: quality === "hd" ? "high" : "medium",
         size: "1024x1024",
         n: 1
       })
@@ -73,6 +73,14 @@ exports.handler = async (event, context) => {
     }
 
     const data = await response.json();
+    
+    // Handle base64 response from gpt-image-1
+    if (data.data && data.data[0] && data.data[0].b64_json && !data.data[0].url) {
+      // Convert base64 to data URL
+      data.data[0].url = `data:image/png;base64,${data.data[0].b64_json}`;
+      // Remove the large base64 data to reduce response size
+      delete data.data[0].b64_json;
+    }
 
     return {
       statusCode: 200,
