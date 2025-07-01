@@ -9,7 +9,7 @@ import PremiumCottonSweatshirt from '../assets/premium_cotton_sweatshirt.jpg';
 import PremiumLightHoodie from '../assets/premium_light_hoodie.jpg';
 import PremiumCottonTeeBlack from '../assets/premium_cotton_tee_black.jpg';
 import PremiumCottonSweatshirtBlack from '../assets/premium_cotton_sweatshirt_black.jpg';
-import PremiumLightHoodieBlack from '../assets/premium_hoodie_black.jpg';
+import PremiumHoodieBlack from '../assets/premium_hoodie_black.jpg';
 import BoltBadge from '../assets/bolt_badge.png';
 
 interface Design {
@@ -91,7 +91,7 @@ export const ProductDisplay: React.FC<ProductDisplayProps> = ({
       case 'Premium Cotton Sweatshirt':
         return isBlack ? PremiumCottonSweatshirtBlack : PremiumCottonSweatshirt;
       case 'Premium Lightweight Hoodie':
-        return isBlack ? PremiumLightHoodieBlack : PremiumLightHoodie;
+        return isBlack ? PremiumHoodieBlack : PremiumLightHoodie;
       default:
         return isBlack ? PremiumCottonTeeBlack : PremiumCottonTee;
     }
